@@ -5,34 +5,24 @@
 
 package meteordevelopment.meteorclient.mixin;
 
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.DropItemsEvent;
 import meteordevelopment.meteorclient.events.entity.player.ClipAtLedgeEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.*;
 import meteordevelopment.meteorclient.systems.modules.player.Reach;
-import meteordevelopment.meteorclient.systems.modules.player.SpeedMine;
-import meteordevelopment.meteorclient.utils.world.BlockUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerAbilities;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.*;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity {
@@ -58,31 +48,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
     }
 
-    @ModifyReturnValue(method = "getBlockBreakingSpeed", at = @At(value = "RETURN"))
-    public float onGetBlockBreakingSpeed(float breakSpeed, BlockState block) {
-        if (!getWorld().isClient) return breakSpeed;
-
-        SpeedMine speedMine = Modules.get().get(SpeedMine.class);
-        if (!speedMine.isActive() || speedMine.mode.get() != SpeedMine.Mode.Normal || !speedMine.filter(block.getBlock())) return breakSpeed;
-
-        float breakSpeedMod = (float) (breakSpeed * speedMine.modifier.get());
-
-        if (mc.crosshairTarget instanceof BlockHitResult bhr) {
-            BlockPos pos = bhr.getBlockPos();
-            if (speedMine.modifier.get() < 1 || (BlockUtils.canInstaBreak(pos, breakSpeed) == BlockUtils.canInstaBreak(pos, breakSpeedMod))) {
-                return breakSpeedMod;
-            } else {
-                return 0.9f / BlockUtils.calcBlockBreakingDelta2(pos, 1);
-            }
-        }
-
-        return breakSpeed;
-    }
-
     @ModifyReturnValue(method = "getMovementSpeed", at = @At("RETURN"))
     private float onGetMovementSpeed(float original) {
         if (!getWorld().isClient) return original;
-        if (!Modules.get().get(NoSlow.class).slowness()) return original;
 
         float walkSpeed = getAbilities().getWalkSpeed();
 

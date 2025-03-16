@@ -17,11 +17,9 @@ import meteordevelopment.meteorclient.events.packets.ContainerSlotUpdateEvent;
 import meteordevelopment.meteorclient.events.packets.InventoryEvent;
 import meteordevelopment.meteorclient.events.packets.PlaySoundPacketEvent;
 import meteordevelopment.meteorclient.events.world.ChunkDataEvent;
-import meteordevelopment.meteorclient.mixininterface.IExplosionS2CPacket;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
 import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.movement.Velocity;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.MinecraftClient;
@@ -115,17 +113,6 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
         for (int id : packet.getEntityIds()) {
             MeteorClient.EVENT_BUS.post(EntityDestroyEvent.get(client.world.getEntityById(id)));
         }
-    }
-
-    @Inject(method = "onExplosion", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/util/thread/ThreadExecutor;)V", shift = At.Shift.AFTER))
-    private void onExplosionVelocity(ExplosionS2CPacket packet, CallbackInfo ci) {
-        Velocity velocity = Modules.get().get(Velocity.class);
-        if (!velocity.explosions.get()) return;
-
-        IExplosionS2CPacket explosionPacket = (IExplosionS2CPacket) (Object) packet;
-        explosionPacket.meteor$setVelocityX((float) (packet.playerKnockback().orElse(Vec3d.ZERO).x * velocity.getHorizontal(velocity.explosionsHorizontal)));
-        explosionPacket.meteor$setVelocityY((float) (packet.playerKnockback().orElse(Vec3d.ZERO).y * velocity.getVertical(velocity.explosionsVertical)));
-        explosionPacket.meteor$setVelocityZ((float) (packet.playerKnockback().orElse(Vec3d.ZERO).z * velocity.getHorizontal(velocity.explosionsHorizontal)));
     }
 
     @Inject(method = "onItemPickupAnimation", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getEntityById(I)Lnet/minecraft/entity/Entity;", ordinal = 0))

@@ -5,43 +5,31 @@
 
 package meteordevelopment.meteorclient.mixin;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
+import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.*;
+
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.DropItemsEvent;
 import meteordevelopment.meteorclient.events.entity.player.*;
 import meteordevelopment.meteorclient.mixininterface.IClientPlayerInteractionManager;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
-import meteordevelopment.meteorclient.systems.modules.player.BreakDelay;
-import meteordevelopment.meteorclient.systems.modules.player.SpeedMine;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.client.network.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.*;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import net.minecraft.util.math.*;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public abstract class ClientPlayerInteractionManagerMixin implements IClientPlayerInteractionManager {
@@ -101,10 +89,7 @@ public abstract class ClientPlayerInteractionManagerMixin implements IClientPlay
     private void onAttackBlock(BlockPos blockPos, Direction direction, CallbackInfoReturnable<Boolean> info) {
         if (MeteorClient.EVENT_BUS.post(StartBreakingBlockEvent.get(blockPos, direction)).isCancelled()) info.cancel();
         else {
-            SpeedMine sm = Modules.get().get(SpeedMine.class);
             BlockState state = mc.world.getBlockState(blockPos);
-
-            if (!sm.instamine() || !sm.filter(state.getBlock())) return;
 
             if (state.calcBlockBreakingDelta(mc.player, mc.world, blockPos) > 0.5f) {
                 breakBlock(blockPos);
@@ -151,17 +136,6 @@ public abstract class ClientPlayerInteractionManagerMixin implements IClientPlay
     private void creativeBreakDelayChange2(ClientPlayerInteractionManager interactionManager, int value) {
         BlockBreakingCooldownEvent event = MeteorClient.EVENT_BUS.post(BlockBreakingCooldownEvent.get(value));
         blockBreakingCooldown = event.cooldown;
-    }
-
-    @Redirect(method = "method_41930", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;calcBlockBreakingDelta(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)F"))
-    private float deltaChange(BlockState blockState, PlayerEntity player, BlockView world, BlockPos pos) {
-        float delta = blockState.calcBlockBreakingDelta(player, world, pos);
-        if (Modules.get().get(BreakDelay.class).preventInstaBreak() && delta >= 1) {
-            BlockBreakingCooldownEvent event = MeteorClient.EVENT_BUS.post(BlockBreakingCooldownEvent.get(blockBreakingCooldown));
-            blockBreakingCooldown = event.cooldown;
-            return 0;
-        }
-        return delta;
     }
 
     @Inject(method = "breakBlock", at = @At("HEAD"), cancellable = true)

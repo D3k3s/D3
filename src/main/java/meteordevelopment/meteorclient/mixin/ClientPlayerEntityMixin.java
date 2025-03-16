@@ -49,42 +49,15 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         return client.currentScreen;
     }
 
-    @ModifyExpressionValue(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
-    private boolean redirectUsingItem(boolean isUsingItem) {
-        if (Modules.get().get(NoSlow.class).items()) return false;
-        return isUsingItem;
-    }
-
     @Inject(method = "isSneaking", at = @At("HEAD"), cancellable = true)
     private void onIsSneaking(CallbackInfoReturnable<Boolean> info) {
         if (Modules.get().get(Scaffold.class).scaffolding()) info.setReturnValue(false);
         if (Modules.get().get(Flight.class).noSneak()) info.setReturnValue(false);
     }
 
-    @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
-    private void onShouldSlowDown(CallbackInfoReturnable<Boolean> info) {
-        if (Modules.get().get(NoSlow.class).sneaking()) {
-            info.setReturnValue(isCrawling());
-        }
-    }
-
-    @Inject(method = "pushOutOfBlocks", at = @At("HEAD"), cancellable = true)
-    private void onPushOutOfBlocks(double x, double d, CallbackInfo info) {
-        Velocity velocity = Modules.get().get(Velocity.class);
-        if (velocity.isActive() && velocity.blocks.get()) {
-            info.cancel();
-        }
-    }
-
-    @ModifyExpressionValue(method = "canSprint", at = @At(value = "CONSTANT", args = "floatValue=6.0f"))
-    private float onHunger(float constant) {
-        if (Modules.get().get(NoSlow.class).hunger()) return -1;
-        return constant;
-    }
-
     @ModifyExpressionValue(method = "sendSneakingPacket", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isSneaking()Z"))
     private boolean isSneaking(boolean sneaking) {
-        return Modules.get().get(Sneak.class).doPacket() || Modules.get().get(NoSlow.class).airStrict() || sneaking;
+        return Modules.get().get(Sneak.class).doPacket() || sneaking;
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))

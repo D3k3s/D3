@@ -5,19 +5,24 @@
 
 package meteordevelopment.meteorclient.systems.modules;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
+
+import org.jetbrains.annotations.*;
+import org.lwjgl.glfw.GLFW;
+
 import com.mojang.serialization.Lifecycle;
+
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
-import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
-import meteordevelopment.meteorclient.events.meteor.ActiveModulesChangedEvent;
-import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.ModuleBindChangedEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.game.*;
+import meteordevelopment.meteorclient.events.meteor.*;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
+import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.config.Config;
@@ -25,40 +30,22 @@ import meteordevelopment.meteorclient.systems.modules.combat.*;
 import meteordevelopment.meteorclient.systems.modules.misc.*;
 import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
 import meteordevelopment.meteorclient.systems.modules.movement.*;
-import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.ElytraFly;
 import meteordevelopment.meteorclient.systems.modules.movement.speed.Speed;
 import meteordevelopment.meteorclient.systems.modules.player.*;
 import meteordevelopment.meteorclient.systems.modules.render.*;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
 import meteordevelopment.meteorclient.systems.modules.render.marker.Marker;
-import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.systems.modules.world.*;
+import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.Keybind;
-import meteordevelopment.meteorclient.utils.misc.ValueComparableMap;
-import meteordevelopment.meteorclient.utils.misc.input.Input;
-import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
-import meteordevelopment.orbit.EventHandler;
-import meteordevelopment.orbit.EventPriority;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.SimpleRegistry;
+import meteordevelopment.meteorclient.utils.misc.*;
+import meteordevelopment.meteorclient.utils.misc.input.*;
+import meteordevelopment.orbit.*;
+import net.minecraft.nbt.*;
+import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
-
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class Modules extends System<Modules> {
     public static final ModuleRegistry REGISTRY = new ModuleRegistry();
@@ -403,101 +390,35 @@ public class Modules extends System<Modules> {
     }
 
     private void initCombat() {
-        add(new AnchorAura());
-        add(new AntiAnvil());
-        add(new AntiBed());
         add(new ArrowDodge());
-        add(new AutoAnvil());
-        add(new AutoArmor());
-        add(new AutoCity());
-        add(new AutoEXP());
-        add(new AutoTotem());
-        add(new AutoTrap());
-        add(new AutoWeapon());
-        add(new AutoWeb());
-        add(new BedAura());
         add(new BowAimbot());
-        add(new BowSpam());
-        add(new Burrow());
-        add(new Criticals());
-        add(new CrystalAura());
-        add(new Hitboxes());
-        add(new HoleFiller());
         add(new KillAura());
-        add(new Offhand());
-        add(new Quiver());
-        add(new SelfAnvil());
-        add(new SelfTrap());
-        add(new SelfWeb());
-        add(new Surround());
     }
 
     private void initPlayer() {
-        add(new AntiHunger());
-        add(new AutoEat());
         add(new AutoClicker());
         add(new AutoFish());
-        add(new AutoGap());
-        add(new AutoMend());
-        add(new AutoReplenish());
-        add(new AutoTool());
-        add(new BreakDelay());
-        add(new ChestSwap());
-        add(new EXPThrower());
         add(new FakePlayer());
-        add(new FastUse());
         add(new GhostHand());
-        add(new InstantRebreak());
-        add(new LiquidInteract());
         add(new MiddleClickExtra());
-        add(new Multitask());
         add(new NoInteract());
-        add(new NoMiningTrace());
-        add(new NoRotate());
-        add(new OffhandCrash());
         add(new Portals());
-        add(new PotionSaver());
-        add(new PotionSpoof());
+        add(new NoRotate());
         add(new Reach());
-        add(new Rotation());
-        add(new SpeedMine());
     }
 
     private void initMovement() {
-        add(new AirJump());
-        add(new Anchor());
         add(new AntiAFK());
-        add(new AntiVoid());
-        add(new AutoJump());
         add(new AutoWalk());
-        add(new AutoWasp());
-        add(new Blink());
-        add(new BoatFly());
         add(new ClickTP());
-        add(new ElytraBoost());
-        add(new ElytraFly());
-        add(new EntityControl());
-        add(new EntitySpeed());
         add(new FastClimb());
         add(new Flight());
         add(new GUIMove());
-        add(new HighJump());
-        add(new Jesus());
-        add(new LongJump());
-        add(new NoFall());
-        add(new NoSlow());
-        add(new Parkour());
-        add(new ReverseStep());
         add(new SafeWalk());
         add(new Scaffold());
-        add(new Slippy());
         add(new Sneak());
         add(new Speed());
-        add(new Spider());
         add(new Sprint());
-        add(new Step());
-        add(new TridentBoost());
-        add(new Velocity());
     }
 
     private void initRender() {
@@ -555,7 +476,6 @@ public class Modules extends System<Modules> {
         add(new EChestFarmer());
         add(new EndermanLook());
         add(new Flamethrower());
-        add(new HighwayBuilder());
         add(new LiquidFiller());
         add(new MountBypass());
         add(new NoGhostBlocks());

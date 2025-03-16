@@ -251,7 +251,6 @@ public class KillAura extends Module {
         if (pauseOnUse.get() && (mc.interactionManager.isBreakingBlock() || mc.player.isUsingItem())) return;
         if (onlyOnClick.get() && !mc.options.attackKey.isPressed()) return;
         if (TickRate.INSTANCE.getTimeSinceLastTick() >= 1f && pauseOnLag.get()) return;
-        if (pauseOnCA.get() && Modules.get().get(CrystalAura.class).isActive() && Modules.get().get(CrystalAura.class).kaTimer > 0) return;
 
         if (onlyOnLook.get()) {
             Entity targeted = mc.targetedEntity;

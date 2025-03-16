@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.movement.speed.modes;
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.movement.Anchor;
 import meteordevelopment.meteorclient.systems.modules.movement.speed.SpeedMode;
 import meteordevelopment.meteorclient.systems.modules.movement.speed.SpeedModes;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -30,12 +29,6 @@ public class Vanilla extends SpeedMode {
             double value = (mc.player.getStatusEffect(StatusEffects.SPEED).getAmplifier() + 1) * 0.205;
             velX += velX * value;
             velZ += velZ * value;
-        }
-
-        Anchor anchor = Modules.get().get(Anchor.class);
-        if (anchor.isActive() && anchor.controlMovement) {
-            velX = anchor.deltaX;
-            velZ = anchor.deltaZ;
         }
 
         ((IVec3d) event.movement).meteor$set(velX, event.movement.y, velZ);

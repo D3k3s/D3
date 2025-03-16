@@ -5,27 +5,21 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
+import java.util.*;
+
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccessor;
-import meteordevelopment.meteorclient.mixin.WorldRendererAccessor;
+import meteordevelopment.meteorclient.mixin.*;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.world.HighwayBuilder;
 import meteordevelopment.meteorclient.systems.modules.world.PacketMine;
-import meteordevelopment.meteorclient.utils.render.color.Color;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import meteordevelopment.meteorclient.utils.render.color.*;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.BlockBreakingInfo;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
+import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
-
-import java.util.List;
-import java.util.Map;
 
 public class BreakIndicators extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -71,25 +65,6 @@ public class BreakIndicators extends Module {
 
         if (packetMine.get() && !Modules.get().get(PacketMine.class).blocks.isEmpty()) {
             renderPacket(event, Modules.get().get(PacketMine.class).blocks);
-        }
-
-        HighwayBuilder b = Modules.get().get(HighwayBuilder.class);
-        if (!b.isActive()) return;
-
-        if (b.normalMining != null) {
-            VoxelShape voxelShape = b.normalMining.blockState.getOutlineShape(mc.world, b.normalMining.blockPos);
-            if (voxelShape.isEmpty()) return;
-
-            double normalised = Math.min(1, b.normalMining.progress());
-            renderBlock(event, voxelShape.getBoundingBox(), b.normalMining.blockPos, 1 - normalised, normalised);
-        }
-
-        if (b.packetMining != null) {
-            VoxelShape voxelShape = b.packetMining.blockState.getOutlineShape(mc.world, b.packetMining.blockPos);
-            if (voxelShape.isEmpty()) return;
-
-            double normalised = Math.min(1, b.packetMining.progress());
-            renderBlock(event, voxelShape.getBoundingBox(), b.packetMining.blockPos, 1 - normalised, normalised);
         }
     }
 

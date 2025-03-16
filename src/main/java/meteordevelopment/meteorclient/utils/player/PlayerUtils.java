@@ -5,21 +5,20 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.utils.Utils.WHITE;
+
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.movement.NoFall;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.entity.DamageUtils;
-import meteordevelopment.meteorclient.utils.entity.EntityUtils;
+import meteordevelopment.meteorclient.utils.entity.*;
 import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BedBlockEntity;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.*;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
@@ -28,15 +27,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.PotionItem;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameMode;
-import net.minecraft.world.RaycastContext;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.Utils.WHITE;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
 
 public class PlayerUtils {
     private static final double diagonal = 1 / Math.sqrt(2);
@@ -219,7 +211,7 @@ public class PlayerUtils {
 
         // Check for fall distance with water check
         if (fall) {
-            if (!Modules.get().isActive(NoFall.class) && mc.player.fallDistance > 3) {
+            if (mc.player.fallDistance > 3) {
                 float damage = DamageUtils.fallDamage(mc.player);
 
                 if (damage > damageTaken && !EntityUtils.isAboveWater(mc.player)) {

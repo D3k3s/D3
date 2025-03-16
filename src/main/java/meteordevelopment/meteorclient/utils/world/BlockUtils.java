@@ -5,40 +5,26 @@
 
 package meteordevelopment.meteorclient.utils.world;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.player.InstantRebreak;
-import meteordevelopment.meteorclient.utils.PreInit;
-import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.player.FindItemResult;
-import meteordevelopment.meteorclient.utils.player.InvUtils;
-import meteordevelopment.meteorclient.utils.player.Rotations;
-import meteordevelopment.meteorclient.utils.player.SlotUtils;
-import meteordevelopment.orbit.EventHandler;
-import meteordevelopment.orbit.EventPriority;
+import meteordevelopment.meteorclient.utils.*;
+import meteordevelopment.meteorclient.utils.player.*;
+import meteordevelopment.orbit.*;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.BlockHalf;
-import net.minecraft.block.enums.SlabType;
+import net.minecraft.block.enums.*;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffectUtil;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.effect.*;
+import net.minecraft.item.*;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import net.minecraft.world.*;
 
 @SuppressWarnings("ConstantConditions")
 public class BlockUtils {
@@ -238,12 +224,6 @@ public class BlockUtils {
 
         // Creating new instance of block pos because minecraft assigns the parameter to a field, and we don't want it to change when it has been stored in a field somewhere
         BlockPos pos = blockPos instanceof BlockPos.Mutable ? new BlockPos(blockPos) : blockPos;
-
-        InstantRebreak ir = Modules.get().get(InstantRebreak.class);
-        if (ir != null && ir.isActive() && ir.blockPos.equals(pos) && ir.shouldMine()) {
-            ir.sendPacket();
-            return true;
-        }
 
         if (mc.interactionManager.isBreakingBlock())
             mc.interactionManager.updateBlockBreakingProgress(pos, getDirection(blockPos));

@@ -13,8 +13,6 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 
 import com.llamalad7.mixinextras.injector.*;
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.sugar.Local;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.player.ItemUseCrosshairTargetEvent;
@@ -23,9 +21,6 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
 import meteordevelopment.meteorclient.systems.config.Config;
-import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.player.*;
-import meteordevelopment.meteorclient.systems.modules.world.HighwayBuilder;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.*;
 import meteordevelopment.starscript.Script;
@@ -35,8 +30,6 @@ import net.minecraft.client.network.*;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profilers;
 
@@ -119,14 +112,6 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
         if (event.isCancelled()) info.cancel();
     }
 
-    @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isItemEnabled(Lnet/minecraft/resource/featuretoggle/FeatureSet;)Z"))
-    private void onDoItemUseHand(CallbackInfo ci, @Local ItemStack itemStack) {
-        FastUse fastUse = Modules.get().get(FastUse.class);
-        if (fastUse.isActive()) {
-            itemUseCooldown = fastUse.getItemUseCooldown(itemStack);
-        }
-    }
-
     @ModifyExpressionValue(method = "doItemUse", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;crosshairTarget:Lnet/minecraft/util/hit/HitResult;", ordinal = 1))
     private HitResult doItemUseMinecraftClientCrosshairTargetProxy(HitResult original) {
         return MeteorClient.EVENT_BUS.post(ItemUseCrosshairTargetEvent.get(original)).target;
@@ -152,18 +137,6 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
         return customTitle;
     }
 
-    // Have to add this condition if we want to draw back a bow using packets, without it getting cancelled by vanilla code
-    @WrapWithCondition(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;stopUsingItem(Lnet/minecraft/entity/player/PlayerEntity;)V"))
-    private boolean wrapStopUsing(ClientPlayerInteractionManager instance, PlayerEntity player) {
-        return HB$stopUsingItem();
-    }
-
-    @Unique
-    private boolean HB$stopUsingItem() {
-        HighwayBuilder b = Modules.get().get(HighwayBuilder.class);
-        return !b.isActive() || !b.drawingBow;
-    }
-
     @Inject(method = "onResolutionChanged", at = @At("TAIL"))
     private void onResolutionChanged(CallbackInfo info) {
         MeteorClient.EVENT_BUS.post(ResolutionChangedEvent.get());
@@ -182,31 +155,6 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
 
         Utils.frameTime = (time - lastTime) / 1000.0;
         lastTime = time;
-    }
-
-    // multitask
-
-    @ModifyExpressionValue(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;isBreakingBlock()Z"))
-    private boolean doItemUseModifyIsBreakingBlock(boolean original) {
-        return !Modules.get().isActive(Multitask.class) && original;
-    }
-
-    @ModifyExpressionValue(method = "handleBlockBreaking", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
-    private boolean handleBlockBreakingModifyIsUsingItem(boolean original) {
-        return !Modules.get().isActive(Multitask.class) && original;
-    }
-
-    @ModifyExpressionValue(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z", ordinal = 0))
-    private boolean handleInputEventsModifyIsUsingItem(boolean original) {
-        return !Modules.get().get(Multitask.class).attackingEntities() && original;
-    }
-
-    @Inject(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z", ordinal = 0, shift = At.Shift.BEFORE))
-    private void handleInputEventsInjectStopUsingItem(CallbackInfo info) {
-        if (Modules.get().get(Multitask.class).attackingEntities() && player.isUsingItem()) {
-            if (!options.useKey.isPressed() && HB$stopUsingItem()) interactionManager.stopUsingItem(player);
-            while (options.useKey.wasPressed());
-        }
     }
 
     // Interface

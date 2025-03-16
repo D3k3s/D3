@@ -5,37 +5,25 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.llamalad7.mixinextras.injector.*;
+
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.player.CanWalkOnFluidEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.Sprint;
-import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.ElytraFlightModes;
-import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.ElytraFly;
-import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Bounce;
-import meteordevelopment.meteorclient.systems.modules.player.OffhandCrash;
-import meteordevelopment.meteorclient.systems.modules.player.PotionSpoof;
-import meteordevelopment.meteorclient.systems.modules.render.HandView;
-import meteordevelopment.meteorclient.systems.modules.render.NoRender;
+import meteordevelopment.meteorclient.systems.modules.render.*;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.*;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -57,15 +45,6 @@ public abstract class LivingEntityMixin extends Entity {
         if (noRender.noEatParticles() && stack.getComponents().contains(DataComponentTypes.FOOD)) info.cancel();
     }
 
-    @Inject(method = "onEquipStack", at = @At("HEAD"), cancellable = true)
-    private void onEquipStack(EquipmentSlot slot, ItemStack oldStack, ItemStack newStack, CallbackInfo info) {
-        if ((Object) this != mc.player) return;
-
-        if (Modules.get().get(OffhandCrash.class).isAntiCrash()) {
-            info.cancel();
-        }
-    }
-
     @ModifyArg(method = "swingHand(Lnet/minecraft/util/Hand;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;swingHand(Lnet/minecraft/util/Hand;Z)V"))
     private Hand setHand(Hand hand) {
         if ((Object) this != mc.player) return hand;
@@ -83,37 +62,6 @@ public abstract class LivingEntityMixin extends Entity {
         if ((Object) this != mc.player) return constant;
 
         return Modules.get().get(HandView.class).isActive() && mc.options.getPerspective().isFirstPerson() ? Modules.get().get(HandView.class).swingSpeed.get() : constant;
-    }
-
-    @ModifyReturnValue(method = "isGliding", at = @At("RETURN"))
-    private boolean isGlidingHook(boolean original) {
-        if ((Object) this != mc.player) return original;
-
-        if (Modules.get().get(ElytraFly.class).canPacketEfly()) {
-            return true;
-        }
-
-        return original;
-    }
-
-    @Unique
-    private boolean previousElytra = false;
-
-    @Inject(method = "isGliding", at = @At("TAIL"), cancellable = true)
-    public void recastOnLand(CallbackInfoReturnable<Boolean> cir) {
-        boolean elytra = cir.getReturnValue();
-        ElytraFly elytraFly = Modules.get().get(ElytraFly.class);
-        if (previousElytra && !elytra && elytraFly.isActive() && elytraFly.flightMode.get() == ElytraFlightModes.Bounce) {
-            cir.setReturnValue(Bounce.recastElytra(mc.player));
-        }
-        previousElytra = elytra;
-    }
-
-    @ModifyReturnValue(method = "hasStatusEffect", at = @At("RETURN"))
-    private boolean hasStatusEffect(boolean original, RegistryEntry<StatusEffect> effect) {
-        if (Modules.get().get(PotionSpoof.class).shouldBlock(effect.value())) return false;
-
-        return original;
     }
 
     @ModifyExpressionValue(method = "jump", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getYaw()F"))

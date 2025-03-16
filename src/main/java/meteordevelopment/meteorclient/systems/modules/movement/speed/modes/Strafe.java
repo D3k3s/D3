@@ -5,14 +5,12 @@
 
 package meteordevelopment.meteorclient.systems.modules.movement.speed.modes;
 
+import org.joml.Vector2d;
+
 import meteordevelopment.meteorclient.events.entity.player.PlayerMoveEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
-import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.movement.Anchor;
-import meteordevelopment.meteorclient.systems.modules.movement.speed.SpeedMode;
-import meteordevelopment.meteorclient.systems.modules.movement.speed.SpeedModes;
+import meteordevelopment.meteorclient.systems.modules.movement.speed.*;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import org.joml.Vector2d;
 
 public class Strafe extends SpeedMode {
 
@@ -60,12 +58,6 @@ public class Strafe extends SpeedMode {
 
         double velX = change.x;
         double velZ = change.y;
-
-        Anchor anchor = Modules.get().get(Anchor.class);
-        if (anchor.isActive() && anchor.controlMovement) {
-            velX = anchor.deltaX;
-            velZ = anchor.deltaZ;
-        }
 
         ((IVec3d) event.movement).meteor$setXZ(velX, velZ);
     }
