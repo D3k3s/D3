@@ -5,44 +5,32 @@
 
 package meteordevelopment.meteorclient;
 
-import meteordevelopment.meteorclient.addons.AddonManager;
-import meteordevelopment.meteorclient.addons.MeteorAddon;
+import java.io.File;
+import java.lang.invoke.MethodHandles;
+
+import org.slf4j.*;
+
+import meteordevelopment.meteorclient.addons.*;
 import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
-import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.*;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiThemes;
-import meteordevelopment.meteorclient.gui.WidgetScreen;
+import meteordevelopment.meteorclient.gui.*;
 import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.systems.hud.screens.HudEditorScreen;
-import meteordevelopment.meteorclient.systems.modules.Categories;
-import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.systems.modules.*;
 import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
-import meteordevelopment.meteorclient.utils.PostInit;
-import meteordevelopment.meteorclient.utils.PreInit;
-import meteordevelopment.meteorclient.utils.ReflectInit;
-import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.*;
 import meteordevelopment.meteorclient.utils.misc.Version;
-import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
-import meteordevelopment.meteorclient.utils.misc.input.KeyBinds;
-import meteordevelopment.meteorclient.utils.network.OnlinePlayers;
-import meteordevelopment.orbit.EventBus;
-import meteordevelopment.orbit.EventHandler;
-import meteordevelopment.orbit.EventPriority;
-import meteordevelopment.orbit.IEventBus;
+import meteordevelopment.meteorclient.utils.misc.input.*;
+import meteordevelopment.orbit.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.util.Identifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.lang.invoke.MethodHandles;
 
 public class MeteorClient implements ClientModInitializer {
     public static final String MOD_ID = "meteor-client";
@@ -135,7 +123,6 @@ public class MeteorClient implements ClientModInitializer {
 
         // Save on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            OnlinePlayers.leave();
             Systems.save();
             GuiThemes.save();
         }));

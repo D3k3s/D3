@@ -5,34 +5,33 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import java.util.concurrent.CompletableFuture;
+
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.*;
+
+import com.llamalad7.mixinextras.injector.*;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
+
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.player.ItemUseCrosshairTargetEvent;
-import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
-import meteordevelopment.meteorclient.events.game.ResolutionChangedEvent;
-import meteordevelopment.meteorclient.events.game.ResourcePacksReloadedEvent;
+import meteordevelopment.meteorclient.events.game.*;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
 import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.player.FastUse;
-import meteordevelopment.meteorclient.systems.modules.player.Multitask;
+import meteordevelopment.meteorclient.systems.modules.player.*;
 import meteordevelopment.meteorclient.systems.modules.world.HighwayBuilder;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.CPSUtils;
-import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
-import meteordevelopment.meteorclient.utils.network.OnlinePlayers;
+import meteordevelopment.meteorclient.utils.misc.*;
 import meteordevelopment.starscript.Script;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.Mouse;
+import net.minecraft.client.*;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.client.network.*;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
@@ -40,18 +39,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profilers;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.concurrent.CompletableFuture;
 
 @Mixin(value = MinecraftClient.class, priority = 1001)
 public abstract class MinecraftClientMixin implements IMinecraftClient {
@@ -87,7 +74,6 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
 
     @Inject(at = @At("HEAD"), method = "tick")
     private void onPreTick(CallbackInfo info) {
-        OnlinePlayers.update();
 
         doItemUseCalled = false;
 
