@@ -9,7 +9,7 @@ import com.mojang.authlib.Environment;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import de.florianmichael.waybackauthlib.InvalidCredentialsException;
 import de.florianmichael.waybackauthlib.WaybackAuthLib;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
 import meteordevelopment.meteorclient.mixin.YggdrasilMinecraftSessionServiceAccessor;
 import meteordevelopment.meteorclient.systems.accounts.Account;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class TheAlteningAccount extends Account<TheAlteningAccount> implements TokenAccount {
     private static final Environment ENVIRONMENT = new Environment("http://sessionserver.thealtening.com", "http://authserver.thealtening.com", "The Altening");
@@ -48,10 +48,10 @@ public class TheAlteningAccount extends Account<TheAlteningAccount> implements T
 
             return true;
         } catch (InvalidCredentialsException e) {
-            MeteorClient.LOG.error("Invalid TheAltening credentials.");
+            D3.LOG.error("Invalid TheAltening credentials.");
             return false;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Failed to fetch info for TheAltening account!");
+            D3.LOG.error("Failed to fetch info for TheAltening account!");
             return false;
         }
     }
@@ -65,7 +65,7 @@ public class TheAlteningAccount extends Account<TheAlteningAccount> implements T
             setSession(new Session(auth.getCurrentProfile().getName(), auth.getCurrentProfile().getId(), auth.getAccessToken(), Optional.empty(), Optional.empty(), Session.AccountType.MOJANG));
             return true;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Failed to login with TheAltening.");
+            D3.LOG.error("Failed to login with TheAltening.");
             return false;
         }
     }

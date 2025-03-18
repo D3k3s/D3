@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.renderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import org.apache.commons.io.IOUtils;
 import org.joml.Matrix4f;
@@ -16,7 +16,7 @@ import org.joml.Matrix4f;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 import static org.lwjgl.opengl.GL32C.*;
 
 public class Shader {
@@ -31,7 +31,7 @@ public class Shader {
 
         String vertError = GL.compileShader(vert);
         if (vertError != null) {
-            MeteorClient.LOG.error("Failed to compile vertex shader ({}): {}", vertPath, vertError);
+            D3.LOG.error("Failed to compile vertex shader ({}): {}", vertPath, vertError);
             throw new RuntimeException("Failed to compile vertex shader (" + vertPath + "): " + vertError);
         }
 
@@ -40,7 +40,7 @@ public class Shader {
 
         String fragError = GL.compileShader(frag);
         if (fragError != null) {
-            MeteorClient.LOG.error("Failed to compile fragment shader ({}): {}", fragPath, fragError);
+            D3.LOG.error("Failed to compile fragment shader ({}): {}", fragPath, fragError);
             throw new RuntimeException("Failed to compile fragment shader (" + fragPath + "): " + fragError);
         }
 
@@ -48,7 +48,7 @@ public class Shader {
 
         String programError = GL.linkProgram(id, vert, frag);
         if (programError != null) {
-            MeteorClient.LOG.error("Failed to link program: {}", programError);
+            D3.LOG.error("Failed to link program: {}", programError);
             throw new RuntimeException("Failed to link program: " + programError);
         }
 
@@ -58,7 +58,7 @@ public class Shader {
 
     private String read(String path) {
         try {
-            return IOUtils.toString(mc.getResourceManager().getResource(MeteorClient.identifier("shaders/" + path)).get().getInputStream(), StandardCharsets.UTF_8);
+            return IOUtils.toString(mc.getResourceManager().getResource(D3.identifier("shaders/" + path)).get().getInputStream(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalStateException("Could not read shader '" + path + "'", e);
         }

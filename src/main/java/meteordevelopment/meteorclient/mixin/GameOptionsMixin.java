@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.ChangePerspectiveEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
@@ -38,7 +38,7 @@ public abstract class GameOptionsMixin {
     private void setPerspective(Perspective perspective, CallbackInfo info) {
         if (Modules.get() == null) return; // nothing is loaded yet, shouldersurfing compat
 
-        ChangePerspectiveEvent event = MeteorClient.EVENT_BUS.post(ChangePerspectiveEvent.get(perspective));
+        ChangePerspectiveEvent event = D3.EVENT_BUS.post(ChangePerspectiveEvent.get(perspective));
 
         if (event.isCancelled()) info.cancel();
 

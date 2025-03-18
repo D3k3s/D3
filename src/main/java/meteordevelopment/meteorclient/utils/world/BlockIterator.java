@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.world;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class BlockIterator {
     private static final Pool<Callback> callbackPool = new Pool<>(Callback::new);
@@ -38,7 +38,7 @@ public class BlockIterator {
 
     @PreInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(BlockIterator.class);
+        D3.EVENT_BUS.subscribe(BlockIterator.class);
     }
 
     @EventHandler(priority = EventPriority.LOWEST - 1)

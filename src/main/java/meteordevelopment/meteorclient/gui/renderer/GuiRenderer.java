@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.renderer;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.renderer.operations.TextOperation;
 import meteordevelopment.meteorclient.gui.renderer.packer.GuiTexture;
@@ -68,12 +68,12 @@ public class GuiRenderer {
 
     @PostInit
     public static void init() {
-        CIRCLE = addTexture(MeteorClient.identifier("textures/icons/gui/circle.png"));
-        TRIANGLE = addTexture(MeteorClient.identifier("textures/icons/gui/triangle.png"));
-        EDIT = addTexture(MeteorClient.identifier("textures/icons/gui/edit.png"));
-        RESET = addTexture(MeteorClient.identifier("textures/icons/gui/reset.png"));
-        FAVORITE_NO = addTexture(MeteorClient.identifier("textures/icons/gui/favorite_no.png"));
-        FAVORITE_YES = addTexture(MeteorClient.identifier("textures/icons/gui/favorite_yes.png"));
+        CIRCLE = addTexture(D3.identifier("textures/icons/gui/circle.png"));
+        TRIANGLE = addTexture(D3.identifier("textures/icons/gui/triangle.png"));
+        EDIT = addTexture(D3.identifier("textures/icons/gui/edit.png"));
+        RESET = addTexture(D3.identifier("textures/icons/gui/reset.png"));
+        FAVORITE_NO = addTexture(D3.identifier("textures/icons/gui/favorite_no.png"));
+        FAVORITE_YES = addTexture(D3.identifier("textures/icons/gui/favorite_yes.png"));
 
         TEXTURE = TEXTURE_PACKER.pack();
     }

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.macros;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.systems.System;
@@ -34,7 +34,7 @@ public class Macros extends System<Macros> implements Iterable<Macro> {
 
     public void add(Macro macro) {
         macros.add(macro);
-        MeteorClient.EVENT_BUS.subscribe(macro);
+        D3.EVENT_BUS.subscribe(macro);
         save();
     }
 
@@ -52,7 +52,7 @@ public class Macros extends System<Macros> implements Iterable<Macro> {
 
     public void remove(Macro macro) {
         if (macros.remove(macro)) {
-            MeteorClient.EVENT_BUS.unsubscribe(macro);
+            D3.EVENT_BUS.unsubscribe(macro);
             save();
         }
     }
@@ -93,11 +93,11 @@ public class Macros extends System<Macros> implements Iterable<Macro> {
 
     @Override
     public Macros fromTag(NbtCompound tag) {
-        for (Macro macro : macros) MeteorClient.EVENT_BUS.unsubscribe(macro);
+        for (Macro macro : macros) D3.EVENT_BUS.unsubscribe(macro);
 
         macros = NbtUtils.listFromTag(tag.getList("macros", 10), Macro::new);
 
-        for (Macro macro : macros) MeteorClient.EVENT_BUS.subscribe(macro);
+        for (Macro macro : macros) D3.EVENT_BUS.subscribe(macro);
         return this;
     }
 }

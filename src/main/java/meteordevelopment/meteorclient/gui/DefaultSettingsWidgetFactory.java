@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
     private static final SettingColor WHITE = new SettingColor();

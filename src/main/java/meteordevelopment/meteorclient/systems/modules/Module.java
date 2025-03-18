@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.gui.GuiTheme;
@@ -51,7 +51,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public boolean favorite = false;
 
     public Module(Category category, String name, String description, String... aliases) {
-        if (name.contains(" ")) MeteorClient.LOG.warn("Module '{}' contains invalid characters in its name making it incompatible with Meteor Client commands.", name);
+        if (name.contains(" ")) D3.LOG.warn("Module '{}' contains invalid characters in its name making it incompatible with Meteor Client commands.", name);
 
         this.mc = MinecraftClient.getInstance();
         this.category = category;
@@ -91,13 +91,13 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
             settings.onActivated();
 
             if (runInMainMenu || Utils.canUpdate()) {
-                if (autoSubscribe) MeteorClient.EVENT_BUS.subscribe(this);
+                if (autoSubscribe) D3.EVENT_BUS.subscribe(this);
                 onActivate();
             }
         }
         else {
             if (runInMainMenu || Utils.canUpdate()) {
-                if (autoSubscribe) MeteorClient.EVENT_BUS.unsubscribe(this);
+                if (autoSubscribe) D3.EVENT_BUS.unsubscribe(this);
                 onDeactivate();
             }
 

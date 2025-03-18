@@ -9,7 +9,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
 import joptsimple.internal.Strings;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -52,7 +52,7 @@ public class ServerCommand extends Command {
     public ServerCommand() {
         super("server", "Prints server information");
 
-        MeteorClient.EVENT_BUS.subscribe(this);
+        D3.EVENT_BUS.subscribe(this);
     }
 
     @Override

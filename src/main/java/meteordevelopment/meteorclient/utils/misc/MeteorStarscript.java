@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.utils.misc;
 import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.Goal;
 import baritone.api.process.IBaritoneProcess;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccessor;
 import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
@@ -65,7 +65,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class MeteorStarscript {
     public static Starscript ss = new Starscript();
@@ -86,8 +86,8 @@ public class MeteorStarscript {
 
         // Meteor
         ss.set("meteor", new ValueMap()
-            .set("name", MeteorClient.NAME)
-            .set("version", MeteorClient.VERSION != null ? (MeteorClient.BUILD_NUMBER.isEmpty() ? MeteorClient.VERSION.toString() : MeteorClient.VERSION + " " + MeteorClient.BUILD_NUMBER) : "")
+            .set("name", D3.NAME)
+            .set("version", D3.VERSION != null ? (D3.BUILD_NUMBER.isEmpty() ? D3.VERSION.toString() : D3.VERSION + " " + D3.BUILD_NUMBER) : "")
             .set("modules", () -> Value.number(Modules.get().getAll().size()))
             .set("active_modules", () -> Value.number(Modules.get().getActive().size()))
             .set("is_module_active", MeteorStarscript::isModuleActive)

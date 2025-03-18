@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.meteor.CharTypedEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.gui.GuiKeyEvents;
@@ -44,7 +44,7 @@ public abstract class KeyboardMixin {
 
             if (GuiKeyEvents.canUseKeys) {
                 Input.setKeyState(key, action != GLFW.GLFW_RELEASE);
-                if (MeteorClient.EVENT_BUS.post(KeyEvent.get(key, modifiers, KeyAction.get(action))).isCancelled()) info.cancel();
+                if (D3.EVENT_BUS.post(KeyEvent.get(key, modifiers, KeyAction.get(action))).isCancelled()) info.cancel();
             }
         }
     }
@@ -52,7 +52,7 @@ public abstract class KeyboardMixin {
     @Inject(method = "onChar", at = @At("HEAD"), cancellable = true)
     private void onChar(long window, int i, int j, CallbackInfo info) {
         if (Utils.canUpdate() && !client.isPaused() && (client.currentScreen == null || client.currentScreen instanceof WidgetScreen)) {
-            if (MeteorClient.EVENT_BUS.post(CharTypedEvent.get((char) i)).isCancelled()) info.cancel();
+            if (D3.EVENT_BUS.post(CharTypedEvent.get((char) i)).isCancelled()) info.cancel();
         }
     }
 }

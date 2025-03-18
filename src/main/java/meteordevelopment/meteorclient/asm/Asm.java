@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.transformer.IMixinTransformer;
 import org.spongepowered.asm.mixin.transformer.ext.IExtensionRegistry;
 import org.spongepowered.asm.transformers.MixinClassWriter;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import net.fabricmc.loader.api.FabricLoader;
 
 /**
@@ -74,7 +74,7 @@ public class Asm {
                 new File(path.toUri()).getParentFile().mkdirs();
                 Files.write(path, bytes);
             } catch (IOException e) {
-                MeteorClient.LOG.error("Failed to export transformer '{}': ", name, e);
+                D3.LOG.error("Failed to export transformer '{}': ", name, e);
             }
         }
     }

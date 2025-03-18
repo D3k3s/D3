@@ -40,7 +40,7 @@ import net.minecraft.world.entity.SimpleEntityLookup;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class EntityUtils {
     private static final BlockPos.Mutable testPos = new BlockPos.Mutable();

@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.commands.commands;
 
 import baritone.api.BaritoneAPI;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
@@ -191,7 +191,7 @@ public class LocateCommand extends Command {
                 firstEnd = null;
                 secondStart = null;
                 secondEnd = null;
-                MeteorClient.EVENT_BUS.subscribe(this);
+                D3.EVENT_BUS.subscribe(this);
                 info("Please throw the first Eye of Ender");
             } else if (BaritoneUtils.IS_AVAILABLE) {
                 Vec3d coords = findByBlockList(strongholdBlocks);
@@ -300,7 +300,7 @@ public class LocateCommand extends Command {
 
     private void cancel() {
         warning("Locate canceled");
-        MeteorClient.EVENT_BUS.unsubscribe(this);
+        D3.EVENT_BUS.unsubscribe(this);
     }
 
     private @Nullable Vec3d findByBlockList(List<Block> blockList) {
@@ -364,7 +364,7 @@ public class LocateCommand extends Command {
             return;
         }
 
-        MeteorClient.EVENT_BUS.unsubscribe(this);
+        D3.EVENT_BUS.unsubscribe(this);
         Vec3d coords = new Vec3d(intersection[0], 0, intersection[1]);
         MutableText text = Text.literal("Stronghold roughly located at ");
         text.append(ChatUtils.formatCoords(coords));

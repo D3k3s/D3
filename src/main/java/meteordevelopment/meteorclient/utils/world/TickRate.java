@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.world;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -27,7 +27,7 @@ public class TickRate {
     private long timeGameJoined;
 
     private TickRate() {
-        MeteorClient.EVENT_BUS.subscribe(this);
+        D3.EVENT_BUS.subscribe(this);
     }
 
     @EventHandler

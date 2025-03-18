@@ -12,7 +12,7 @@ import net.minecraft.entity.LivingEntity;
 
 import java.util.Comparator;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public enum SortPriority implements Comparator<Entity> {
     LowestDistance(Comparator.comparingDouble(PlayerUtils::squaredDistanceTo)),

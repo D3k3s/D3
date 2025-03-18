@@ -19,7 +19,7 @@ import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.util.math.RotationAxis;
 import org.joml.Quaternionf;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 // Thanks to
 // https://github.com/Queerbric/Inspecio/blob/1.17/src/main/java/io/github/queerbric/inspecio/tooltip/EntityTooltipComponent.java

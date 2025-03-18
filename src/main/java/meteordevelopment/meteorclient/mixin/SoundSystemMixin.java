@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.PlaySoundEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.SoundBlocker;
@@ -26,7 +26,7 @@ public abstract class SoundSystemMixin {
 
     @Inject(method = "play(Lnet/minecraft/client/sound/SoundInstance;)V", at = @At("HEAD"), cancellable = true)
     private void onPlay(SoundInstance soundInstance, CallbackInfo info) {
-        PlaySoundEvent event = MeteorClient.EVENT_BUS.post(PlaySoundEvent.get(soundInstance));
+        PlaySoundEvent event = D3.EVENT_BUS.post(PlaySoundEvent.get(soundInstance));
 
         if (event.isCancelled()) info.cancel();
     }

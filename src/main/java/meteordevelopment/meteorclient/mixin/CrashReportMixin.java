@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.hud.HudElement;
 import meteordevelopment.meteorclient.systems.hud.elements.TextHud;
@@ -25,9 +25,9 @@ public abstract class CrashReportMixin {
     @Inject(method = "addDetails", at = @At("TAIL"))
     private void onAddDetails(StringBuilder sb, CallbackInfo info) {
         sb.append("\n\n-- Meteor Client --\n\n");
-        sb.append("Version: ").append(MeteorClient.VERSION).append("\n");
-        if (!MeteorClient.BUILD_NUMBER.isEmpty()) {
-            sb.append("Build: ").append(MeteorClient.BUILD_NUMBER).append("\n");
+        sb.append("Version: ").append(D3.VERSION).append("\n");
+        if (!D3.BUILD_NUMBER.isEmpty()) {
+            sb.append("Build: ").append(D3.BUILD_NUMBER).append("\n");
         }
 
         if (Modules.get() != null) {

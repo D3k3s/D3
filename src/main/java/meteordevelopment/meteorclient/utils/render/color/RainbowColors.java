@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.render.color;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
@@ -21,7 +21,7 @@ import meteordevelopment.orbit.EventHandler;
 
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class RainbowColors {
     private static final List<Setting<SettingColor>> colorSettings = new UnorderedArrayList<>();
@@ -37,7 +37,7 @@ public class RainbowColors {
 
     @PostInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(RainbowColors.class);
+        D3.EVENT_BUS.subscribe(RainbowColors.class);
     }
 
     public static void addSetting(Setting<SettingColor> setting) {

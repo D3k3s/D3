@@ -11,7 +11,7 @@ import net.minecraft.world.chunk.Chunk;
 
 import java.util.Iterator;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class ChunkIterator implements Iterator<Chunk> {
     private final ClientChunkMapAccessor map = (ClientChunkMapAccessor) (Object) ((ClientChunkManagerAccessor) mc.world.getChunkManager()).getChunks();

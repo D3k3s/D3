@@ -31,7 +31,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 import static net.minecraft.client.MinecraftClient.IS_SYSTEM_MAC;
 
 public class MeteorGuiTheme extends GuiTheme {

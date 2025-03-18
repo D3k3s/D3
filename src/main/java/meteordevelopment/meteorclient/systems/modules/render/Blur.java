@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.render;
 
 import it.unimi.dsi.fastutil.ints.IntDoubleImmutablePair;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.ResolutionChangedEvent;
 import meteordevelopment.meteorclient.events.render.RenderAfterWorldEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
@@ -107,7 +107,7 @@ public class Blur extends Module {
         super(Categories.Render, "blur", "Blurs background when in GUI screens.");
 
         // The listeners need to run even when the module is not enabled
-        MeteorClient.EVENT_BUS.subscribe(new ConsumerListener<>(ResolutionChangedEvent.class, event -> {
+        D3.EVENT_BUS.subscribe(new ConsumerListener<>(ResolutionChangedEvent.class, event -> {
             // Resize all fbos
             for (int i = 0; i < fbos.length; i++) {
                 if (fbos[i] != null) {
@@ -118,7 +118,7 @@ public class Blur extends Module {
             }
         }));
 
-        MeteorClient.EVENT_BUS.subscribe(new ConsumerListener<>(RenderAfterWorldEvent.class, event -> onRenderAfterWorld()));
+        D3.EVENT_BUS.subscribe(new ConsumerListener<>(RenderAfterWorldEvent.class, event -> onRenderAfterWorld()));
     }
 
     private void onRenderAfterWorld() {

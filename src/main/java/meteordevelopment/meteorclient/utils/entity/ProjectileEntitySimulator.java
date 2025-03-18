@@ -26,7 +26,7 @@ import net.minecraft.world.RaycastContext;
 import org.joml.Quaterniond;
 import org.joml.Vector3d;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class ProjectileEntitySimulator {
     private static final BlockPos.Mutable blockPos = new BlockPos.Mutable();

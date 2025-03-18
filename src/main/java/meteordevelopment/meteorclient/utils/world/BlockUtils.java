@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.utils.world;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.*;
 import meteordevelopment.meteorclient.utils.player.*;
@@ -36,7 +36,7 @@ public class BlockUtils {
 
     @PreInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(BlockUtils.class);
+        D3.EVENT_BUS.subscribe(BlockUtils.class);
     }
 
     // Placing

@@ -14,7 +14,7 @@ import net.minecraft.screen.slot.SlotActionType;
 
 import java.util.function.Predicate;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class InvUtils {
     private static final Action ACTION = new Action();

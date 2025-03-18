@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin.lithium;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.CollisionShapeEvent;
 import net.caffeinemc.mods.lithium.common.entity.movement.ChunkAwareBlockCollisionSweeper;
 import net.minecraft.block.BlockState;
@@ -28,7 +28,7 @@ public abstract class ChunkAwareBlockCollisionSweeperMixin {
         if (collisionView != MinecraftClient.getInstance().world)
             return shape;
 
-        CollisionShapeEvent event = MeteorClient.EVENT_BUS.post(CollisionShapeEvent.get(state, pos, shape));
+        CollisionShapeEvent event = D3.EVENT_BUS.post(CollisionShapeEvent.get(state, pos, shape));
         return event.isCancelled() ? VoxelShapes.empty() : event.shape;
     }
 }

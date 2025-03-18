@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_APOSTROPHE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_CAPS_LOCK;
@@ -92,7 +92,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Reference2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.mixin.ClientPlayNetworkHandlerAccessor;
@@ -167,7 +167,7 @@ public class Utils {
 
     @PreInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(Utils.class);
+        D3.EVENT_BUS.subscribe(Utils.class);
     }
 
     @EventHandler
@@ -560,7 +560,7 @@ public class Utils {
         try {
             return in.readAllBytes();
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error reading from stream.", e);
+            D3.LOG.error("Error reading from stream.", e);
             return new byte[0];
         } finally {
             IOUtils.closeQuietly(in);

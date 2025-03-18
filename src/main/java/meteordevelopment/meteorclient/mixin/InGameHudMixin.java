@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
@@ -35,11 +35,11 @@ public abstract class InGameHudMixin {
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         context.draw();
 
-        Profilers.get().push(MeteorClient.MOD_ID + "_render_2d");
+        Profilers.get().push(D3.MOD_ID + "_render_2d");
 
         Utils.unscaledProjection();
 
-        MeteorClient.EVENT_BUS.post(Render2DEvent.get(context, context.getScaledWindowWidth(), context.getScaledWindowWidth(), tickCounter.getTickDelta(true)));
+        D3.EVENT_BUS.post(Render2DEvent.get(context, context.getScaledWindowWidth(), context.getScaledWindowWidth(), tickCounter.getTickDelta(true)));
 
         context.draw();
         Utils.scaledProjection();

@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class ArmorHud extends HudElement {
     public static final HudElementInfo<ArmorHud> INFO = new HudElementInfo<>(Hud.GROUP, "armor", "Displays your armor.", ArmorHud::new);

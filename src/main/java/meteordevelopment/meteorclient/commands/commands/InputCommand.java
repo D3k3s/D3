@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.datafixers.util.Pair;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.KeyBindingAccessor;
@@ -79,7 +79,7 @@ public class InputCommand extends Command {
             if (activeHandlers.isEmpty()) warning("No active keypress handlers.");
             else {
                 info("Cleared all keypress handlers.");
-                activeHandlers.forEach(MeteorClient.EVENT_BUS::unsubscribe);
+                activeHandlers.forEach(D3.EVENT_BUS::unsubscribe);
                 activeHandlers.clear();
             }
             return SINGLE_SUCCESS;
@@ -102,7 +102,7 @@ public class InputCommand extends Command {
             if (index >= activeHandlers.size()) warning("Index out of range.");
             else {
                 info("Removed keypress handler.");
-                MeteorClient.EVENT_BUS.unsubscribe(activeHandlers.get(index));
+                D3.EVENT_BUS.unsubscribe(activeHandlers.get(index));
                 activeHandlers.remove(index);
             }
             return SINGLE_SUCCESS;
@@ -124,7 +124,7 @@ public class InputCommand extends Command {
             this.totalTicks = ticks;
             this.ticks = ticks;
 
-            MeteorClient.EVENT_BUS.subscribe(this);
+            D3.EVENT_BUS.subscribe(this);
         }
 
         @EventHandler
@@ -132,7 +132,7 @@ public class InputCommand extends Command {
             if (ticks-- > 0) key.setPressed(true);
             else {
                 key.setPressed(false);
-                MeteorClient.EVENT_BUS.unsubscribe(this);
+                D3.EVENT_BUS.unsubscribe(this);
                 activeHandlers.remove(this);
             }
         }

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.waypoints;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.renderer.GL;
 import meteordevelopment.meteorclient.renderer.Renderer2D;
 import meteordevelopment.meteorclient.settings.*;
@@ -47,7 +47,7 @@ public class Waypoint implements ISerializable<Waypoint> {
     public Setting<SettingColor> color = sgVisual.add(new ColorSetting.Builder()
         .name("color")
         .description("The color of the waypoint.")
-        .defaultValue(MeteorClient.ADDON.color.toSetting())
+        .defaultValue(D3.ADDON.color.toSetting())
         .build()
     );
 

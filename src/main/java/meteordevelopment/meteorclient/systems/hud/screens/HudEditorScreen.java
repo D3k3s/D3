@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
     private static final Color SPLIT_LINES_COLOR = new Color(255, 255, 255, 75);

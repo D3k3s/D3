@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.movement;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.player.PlayerTickMovementEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -158,7 +158,7 @@ public class GUIMove extends Module {
 
         InputUtil.Key key = ((KeyBindingAccessor) bind).getKey();
         if (wasPressed != pressed && key.getCategory() == InputUtil.Type.KEYSYM) {
-            MeteorClient.EVENT_BUS.post(KeyEvent.get(key.getCode(), 0, pressed ? KeyAction.Press : KeyAction.Release));
+            D3.EVENT_BUS.post(KeyEvent.get(key.getCode(), 0, pressed ? KeyAction.Press : KeyAction.Release));
         }
     }
 

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 import static meteordevelopment.meteorclient.utils.Utils.WHITE;
 
 import meteordevelopment.meteorclient.mixininterface.IVec3d;

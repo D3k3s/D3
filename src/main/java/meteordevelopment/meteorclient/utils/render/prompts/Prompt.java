@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screen.Screen;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 @SuppressWarnings("unchecked") // cant instantiate a Prompt directly so this is fine
 public abstract class Prompt<T> {

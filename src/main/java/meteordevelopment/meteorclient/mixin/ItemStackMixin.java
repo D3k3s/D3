@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.player.FinishUsingItemEvent;
 import meteordevelopment.meteorclient.events.entity.player.StoppedUsingItemEvent;
 import meteordevelopment.meteorclient.events.game.ItemStackTooltipEvent;
@@ -32,7 +32,7 @@ public abstract class ItemStackMixin {
     @ModifyReturnValue(method = "getTooltip", at = @At("RETURN"))
     private List<Text> onGetTooltip(List<Text> original) {
         if (Utils.canUpdate()) {
-            ItemStackTooltipEvent event = MeteorClient.EVENT_BUS.post(new ItemStackTooltipEvent((ItemStack) (Object) this, original));
+            ItemStackTooltipEvent event = D3.EVENT_BUS.post(new ItemStackTooltipEvent((ItemStack) (Object) this, original));
             return event.list();
         }
 
@@ -42,14 +42,14 @@ public abstract class ItemStackMixin {
     @Inject(method = "finishUsing", at = @At("HEAD"))
     private void onFinishUsing(World world, LivingEntity user, CallbackInfoReturnable<ItemStack> info) {
         if (user == mc.player) {
-            MeteorClient.EVENT_BUS.post(FinishUsingItemEvent.get((ItemStack) (Object) this));
+            D3.EVENT_BUS.post(FinishUsingItemEvent.get((ItemStack) (Object) this));
         }
     }
 
     @Inject(method = "onStoppedUsing", at = @At("HEAD"))
     private void onStoppedUsing(World world, LivingEntity user, int remainingUseTicks, CallbackInfo info) {
         if (user == mc.player) {
-            MeteorClient.EVENT_BUS.post(StoppedUsingItemEvent.get((ItemStack) (Object) this));
+            D3.EVENT_BUS.post(StoppedUsingItemEvent.get((ItemStack) (Object) this));
         }
     }
 }

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
 import meteordevelopment.meteorclient.events.entity.EntityRemovedEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -36,12 +36,12 @@ public abstract class ClientWorldMixin {
 
     @Inject(method = "addEntity", at = @At("TAIL"))
     private void onAddEntity(Entity entity, CallbackInfo info) {
-        if (entity != null) MeteorClient.EVENT_BUS.post(EntityAddedEvent.get(entity));
+        if (entity != null) D3.EVENT_BUS.post(EntityAddedEvent.get(entity));
     }
 
     @Inject(method = "removeEntity", at = @At("HEAD"))
     private void onRemoveEntity(int entityId, Entity.RemovalReason removalReason, CallbackInfo info) {
-        if (getEntityById(entityId) != null) MeteorClient.EVENT_BUS.post(EntityRemovedEvent.get(getEntityById(entityId)));
+        if (getEntityById(entityId) != null) D3.EVENT_BUS.post(EntityRemovedEvent.get(getEntityById(entityId)));
     }
 
     /**

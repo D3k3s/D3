@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class PlayerListEntryArgumentType implements ArgumentType<PlayerListEntry> {
     private static final PlayerListEntryArgumentType INSTANCE = new PlayerListEntryArgumentType();

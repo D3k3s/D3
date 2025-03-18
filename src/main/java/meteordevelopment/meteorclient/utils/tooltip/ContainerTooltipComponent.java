@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.tooltip;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.font.TextRenderer;
@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public class ContainerTooltipComponent implements TooltipComponent, MeteorTooltipData {
-    private static final Identifier TEXTURE_CONTAINER_BACKGROUND = MeteorClient.identifier("textures/container.png");
+    private static final Identifier TEXTURE_CONTAINER_BACKGROUND = D3.identifier("textures/container.png");
 
     private final ItemStack[] items;
     private final Color color;

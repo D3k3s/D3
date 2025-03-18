@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.utils.misc;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.ResourcePacksReloadedEvent;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.orbit.EventHandler;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class Names {
     private static final Map<StatusEffect, String> statusEffectNames = new Reference2ObjectOpenHashMap<>(16);
@@ -53,7 +53,7 @@ public class Names {
 
     @PreInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(Names.class);
+        D3.EVENT_BUS.subscribe(Names.class);
     }
 
     @EventHandler

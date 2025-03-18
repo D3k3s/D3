@@ -42,7 +42,7 @@ import org.joml.Matrix4fStack;
 
 import java.util.*;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 // TODO: Rewrite this to use the hud renderer system
 public class CombatHud extends HudElement {

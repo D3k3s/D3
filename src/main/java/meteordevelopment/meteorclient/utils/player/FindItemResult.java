@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.utils.player;
 
 import net.minecraft.util.Hand;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public record FindItemResult(int slot, int count) {
     public boolean found() {

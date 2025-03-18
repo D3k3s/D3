@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.config;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.renderer.Fonts;
 import meteordevelopment.meteorclient.renderer.text.FontFace;
 import meteordevelopment.meteorclient.settings.*;
@@ -21,7 +21,7 @@ import net.minecraft.nbt.NbtString;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class Config extends System<Config> {
     public final Settings settings = new Settings();
@@ -173,7 +173,7 @@ public class Config extends System<Config> {
     public NbtCompound toTag() {
         NbtCompound tag = new NbtCompound();
 
-        tag.putString("version", MeteorClient.VERSION.toString());
+        tag.putString("version", D3.VERSION.toString());
         tag.put("settings", settings.toTag());
         tag.put("dontShowAgainPrompts", listToTag(dontShowAgainPrompts));
 

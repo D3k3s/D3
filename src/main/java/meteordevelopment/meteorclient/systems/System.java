@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.utils.files.StreamUtils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import net.minecraft.nbt.NbtCompound;
@@ -30,7 +30,7 @@ public abstract class System<T> implements ISerializable<T> {
         this.name = name;
 
         if (name != null) {
-            this.file = new File(MeteorClient.FOLDER, name + ".nbt");
+            this.file = new File(D3.FOLDER, name + ".nbt");
             this.isFirstInit = !file.exists();
         }
     }
@@ -45,7 +45,7 @@ public abstract class System<T> implements ISerializable<T> {
         if (tag == null) return;
 
         try {
-            File tempFile = File.createTempFile(MeteorClient.MOD_ID, file.getName());
+            File tempFile = File.createTempFile(D3.MOD_ID, file.getName());
             NbtIo.write(tag, tempFile.toPath());
 
             if (folder != null) file = new File(folder, file.getName());
@@ -76,8 +76,8 @@ public abstract class System<T> implements ISerializable<T> {
                     String backupName = FilenameUtils.removeExtension(file.getName()) + "-" + ZonedDateTime.now().format(DATE_TIME_FORMATTER) + ".backup.nbt";
                     File backup = new File(file.getParentFile(), backupName);
                     StreamUtils.copy(file, backup);
-                    MeteorClient.LOG.error("Error loading {}. Possibly corrupted?", this.name);
-                    MeteorClient.LOG.info("Saved settings backup to '{}'.", backup);
+                    D3.LOG.error("Error loading {}. Possibly corrupted?", this.name);
+                    D3.LOG.info("Saved settings backup to '{}'.", backup);
                     e.printStackTrace();
                 }
             }

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.player.SendMovementPacketsEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.systems.config.Config;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class Rotations {
     private static final Pool<Rotation> rotationPool = new Pool<>(Rotation::new);
@@ -43,7 +43,7 @@ public class Rotations {
 
     @PreInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(Rotations.class);
+        D3.EVENT_BUS.subscribe(Rotations.class);
     }
 
     public static void rotate(double yaw, double pitch, int priority, boolean clientSide, Runnable callback) {

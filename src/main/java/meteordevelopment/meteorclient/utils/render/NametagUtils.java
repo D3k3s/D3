@@ -17,7 +17,7 @@ import org.joml.Matrix4fStack;
 import org.joml.Vector3d;
 import org.joml.Vector4f;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class NametagUtils {
     private static final Vector4f vec4 = new Vector4f();

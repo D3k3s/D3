@@ -11,7 +11,7 @@ import it.unimi.dsi.fastutil.chars.Char2CharMap;
 import it.unimi.dsi.fastutil.chars.Char2CharOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.commands.Commands;
 import meteordevelopment.meteorclient.events.game.ReceiveMessageEvent;
 import meteordevelopment.meteorclient.events.game.SendMessageEvent;
@@ -404,8 +404,8 @@ public class BetterChat extends Module {
     }
 
     static {
-        registerCustomHead("[Meteor]", MeteorClient.identifier("textures/icons/chat/meteor.png"));
-        registerCustomHead("[Baritone]", MeteorClient.identifier("textures/icons/chat/baritone.png"));
+        registerCustomHead("[Meteor]", D3.identifier("textures/icons/chat/meteor.png"));
+        registerCustomHead("[Baritone]", D3.identifier("textures/icons/chat/baritone.png"));
     }
 
     public int modifyChatWidth(int width) {

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.profiles;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Profiles extends System<Profiles> implements Iterable<Profile> {
-    public static final File FOLDER = new File(MeteorClient.FOLDER, "profiles");
+    public static final File FOLDER = new File(D3.FOLDER, "profiles");
 
     private List<Profile> profiles = new ArrayList<>();
 

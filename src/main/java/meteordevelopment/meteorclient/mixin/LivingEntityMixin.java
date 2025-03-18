@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.injector.*;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.player.CanWalkOnFluidEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.Sprint;
@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
     @ModifyReturnValue(method = "canWalkOnFluid", at = @At("RETURN"))
     private boolean onCanWalkOnFluid(boolean original, FluidState fluidState) {
         if ((Object) this != mc.player) return original;
-        CanWalkOnFluidEvent event = MeteorClient.EVENT_BUS.post(CanWalkOnFluidEvent.get(fluidState));
+        CanWalkOnFluidEvent event = D3.EVENT_BUS.post(CanWalkOnFluidEvent.get(fluidState));
 
         return event.walkOnFluid;
     }

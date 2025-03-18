@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.CollisionShapeEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -35,7 +35,7 @@ public abstract class BlockCollisionSpliteratorMixin {
             return shape;
         }
 
-        CollisionShapeEvent event = MeteorClient.EVENT_BUS.post(CollisionShapeEvent.get(blockState, blockPos, shape));
+        CollisionShapeEvent event = D3.EVENT_BUS.post(CollisionShapeEvent.get(blockState, blockPos, shape));
         return event.isCancelled() ? VoxelShapes.empty() : event.shape;
     }
 }

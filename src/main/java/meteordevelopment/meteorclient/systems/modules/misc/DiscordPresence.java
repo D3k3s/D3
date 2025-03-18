@@ -9,7 +9,7 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 
 import meteordevelopment.discordipc.DiscordIPC;
 import meteordevelopment.discordipc.RichPresence;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
@@ -149,8 +149,8 @@ public class DiscordPresence extends Module {
 
         rpc.setStart(System.currentTimeMillis() / 1000L);
 
-        String largeText = "%s %s".formatted(MeteorClient.NAME, MeteorClient.VERSION);
-        if (!MeteorClient.BUILD_NUMBER.isEmpty()) largeText += " Build: " + MeteorClient.BUILD_NUMBER;
+        String largeText = "%s %s".formatted(D3.NAME, D3.VERSION);
+        if (!D3.BUILD_NUMBER.isEmpty()) largeText += " Build: " + D3.BUILD_NUMBER;
         rpc.setLargeImage("meteor_client", largeText);
 
         currentSmallImage = SmallImage.Snail;
@@ -242,7 +242,7 @@ public class DiscordPresence extends Module {
         }
         else {
             if (!lastWasInMainMenu) {
-                rpc.setDetails(MeteorClient.NAME + " " + (MeteorClient.BUILD_NUMBER.isEmpty() ? MeteorClient.VERSION : MeteorClient.VERSION + " " + MeteorClient.BUILD_NUMBER));
+                rpc.setDetails(D3.NAME + " " + (D3.BUILD_NUMBER.isEmpty() ? D3.VERSION : D3.VERSION + " " + D3.BUILD_NUMBER));
 
                 if (mc.currentScreen instanceof TitleScreen) rpc.setState("Looking at title screen");
                 else if (mc.currentScreen instanceof SelectWorldScreen) rpc.setState("Selecting world");

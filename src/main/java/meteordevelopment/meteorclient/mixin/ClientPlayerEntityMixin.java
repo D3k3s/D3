@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.mojang.authlib.GameProfile;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.DropItemsEvent;
 import meteordevelopment.meteorclient.events.entity.player.PlayerTickMovementEvent;
 import meteordevelopment.meteorclient.events.entity.player.SendMovementPacketsEvent;
@@ -40,7 +40,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(method = "dropSelectedItem", at = @At("HEAD"), cancellable = true)
     private void onDropSelectedItem(boolean dropEntireStack, CallbackInfoReturnable<Boolean> info) {
-        if (MeteorClient.EVENT_BUS.post(DropItemsEvent.get(getMainHandStack())).isCancelled()) info.setReturnValue(false);
+        if (D3.EVENT_BUS.post(DropItemsEvent.get(getMainHandStack())).isCancelled()) info.setReturnValue(false);
     }
 
     @Redirect(method = "tickNausea", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;currentScreen:Lnet/minecraft/client/gui/screen/Screen;"))
@@ -62,7 +62,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
     private void preTickMovement(CallbackInfo ci) {
-        MeteorClient.EVENT_BUS.post(PlayerTickMovementEvent.get());
+        D3.EVENT_BUS.post(PlayerTickMovementEvent.get());
     }
 
     // Sprint
@@ -95,21 +95,21 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(method = "sendMovementPackets", at = @At("HEAD"))
     private void onSendMovementPacketsHead(CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(SendMovementPacketsEvent.Pre.get());
+        D3.EVENT_BUS.post(SendMovementPacketsEvent.Pre.get());
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayNetworkHandler;sendPacket(Lnet/minecraft/network/packet/Packet;)V", ordinal = 1))
     private void onTickHasVehicleBeforeSendPackets(CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(SendMovementPacketsEvent.Pre.get());
+        D3.EVENT_BUS.post(SendMovementPacketsEvent.Pre.get());
     }
 
     @Inject(method = "sendMovementPackets", at = @At("TAIL"))
     private void onSendMovementPacketsTail(CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(SendMovementPacketsEvent.Post.get());
+        D3.EVENT_BUS.post(SendMovementPacketsEvent.Post.get());
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayNetworkHandler;sendPacket(Lnet/minecraft/network/packet/Packet;)V", ordinal = 1, shift = At.Shift.AFTER))
     private void onTickHasVehicleAfterSendPackets(CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(SendMovementPacketsEvent.Post.get());
+        D3.EVENT_BUS.post(SendMovementPacketsEvent.Post.get());
     }
 }

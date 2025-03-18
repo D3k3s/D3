@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.files;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -19,7 +19,7 @@ public class StreamUtils {
              OutputStream out = new FileOutputStream(to)) {
             in.transferTo(out);
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error copying from file '{}' to file '{}'.", from.getName(), to.getName(), e);
+            D3.LOG.error("Error copying from file '{}' to file '{}'.", from.getName(), to.getName(), e);
         }
     }
 
@@ -27,7 +27,7 @@ public class StreamUtils {
         try (OutputStream out = new FileOutputStream(to)) {
             in.transferTo(out);
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error writing to file '{}'.", to.getName());
+            D3.LOG.error("Error writing to file '{}'.", to.getName());
         } finally {
             IOUtils.closeQuietly(in);
         }

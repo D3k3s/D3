@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.utils.misc;
 
 import com.mojang.authlib.GameProfile;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.utils.PreInit;
 import net.minecraft.client.network.ClientConnectionState;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -20,7 +20,7 @@ import net.minecraft.world.Difficulty;
 
 import java.util.UUID;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class FakeClientPlayer {
     private static ClientWorld world;
@@ -35,7 +35,7 @@ public class FakeClientPlayer {
 
     @PreInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(FakeClientPlayer.class);
+        D3.EVENT_BUS.subscribe(FakeClientPlayer.class);
     }
 
     public static PlayerEntity getPlayer() {

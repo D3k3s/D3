@@ -1,26 +1,23 @@
 {
   "schemaVersion": 1,
-  "name": "Meteor Client",
-  "id": "meteor-client",
+  "name": "D3",
+  "id": "d3-client",
   "version": "${version}",
-  "description": "Based utility mod.",
+  "description": "Hacked client for Teslacraft server",
   "authors": [
-    "MineGame159",
-    "squidoodly",
-    "seasnail"
+    "nel0lka (aka anon987666)"
   ],
   "contact": {
-    "homepage": "https://meteorclient.com",
-    "issues": "https://github.com/MeteorDevelopment/meteor-client/issues",
-    "sources": "https://github.com/MeteorDevelopment/meteor-client",
-    "discord": "https://meteorclient.com/discord"
+	"homepage": "https://github.com/D3k3s/D3",
+	"issues": "https://github.com/D3k3s/D3/issues",
+	"sources": "https://github.com/D3k3s/D3"
   },
   "license": "GPL-3.0",
-  "icon": "assets/meteor-client/icon.png",
+  "icon": "assets/d3-client/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "meteordevelopment.meteorclient.MeteorClient"
+      "meteordevelopment.meteorclient.D3"
     ],
     "modmenu": [
       "meteordevelopment.meteorclient.ModMenuIntegration"
@@ -36,14 +33,9 @@
   ],
   "accessWidener": "meteor-client.accesswidener",
   "custom": {
-    "meteor-client:build_number": "${build_number}",
-    "meteor-client:color": "145,61,226",
-    "meteor-client:commit": "${commit}",
-    "modmenu": {
-      "links": {
-        "modmenu.discord": "https://meteorclient.com/discord"
-      }
-    }
+	"d3-client:build_number": "${build_number}",
+	"d3-client:color": "145,61,226",
+	"d3-client:commit": "${commit}"
   },
   "depends": {
     "java": ">=21",

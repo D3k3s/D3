@@ -21,7 +21,7 @@ import net.minecraft.util.math.random.Random;
 
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class SimpleBlockRenderer {
     private static final MatrixStack MATRICES = new MatrixStack();

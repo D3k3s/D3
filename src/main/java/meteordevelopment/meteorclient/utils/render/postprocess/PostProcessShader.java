@@ -8,7 +8,7 @@ import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.client.render.OutlineVertexConsumerProvider;
 import net.minecraft.entity.Entity;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 public abstract class PostProcessShader {

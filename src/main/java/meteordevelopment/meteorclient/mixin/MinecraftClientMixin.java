@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.*;
 
 import com.llamalad7.mixinextras.injector.*;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.player.ItemUseCrosshairTargetEvent;
 import meteordevelopment.meteorclient.events.game.*;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -61,7 +61,7 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(CallbackInfo info) {
-        MeteorClient.INSTANCE.onInitializeClient();
+        D3.INSTANCE.onInitializeClient();
         firstFrame = true;
     }
 
@@ -70,8 +70,8 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
 
         doItemUseCalled = false;
 
-        Profilers.get().push(MeteorClient.MOD_ID + "_pre_update");
-        MeteorClient.EVENT_BUS.post(TickEvent.Pre.get());
+        Profilers.get().push(D3.MOD_ID + "_pre_update");
+        D3.EVENT_BUS.post(TickEvent.Pre.get());
         Profilers.get().pop();
 
         if (rightClick && !doItemUseCalled && interactionManager != null) doItemUse();
@@ -80,8 +80,8 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void onTick(CallbackInfo info) {
-        Profilers.get().push(MeteorClient.MOD_ID + "_post_update");
-        MeteorClient.EVENT_BUS.post(TickEvent.Post.get());
+        Profilers.get().push(D3.MOD_ID + "_post_update");
+        D3.EVENT_BUS.post(TickEvent.Post.get());
         Profilers.get().pop();
     }
 
@@ -98,7 +98,7 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;Z)V", at = @At("HEAD"))
     private void onDisconnect(Screen screen, boolean transferring, CallbackInfo info) {
         if (world != null) {
-            MeteorClient.EVENT_BUS.post(GameLeftEvent.get());
+            D3.EVENT_BUS.post(GameLeftEvent.get());
         }
     }
 
@@ -107,19 +107,19 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
         if (screen instanceof WidgetScreen) screen.mouseMoved(mouse.getX() * window.getScaleFactor(), mouse.getY() * window.getScaleFactor());
 
         OpenScreenEvent event = OpenScreenEvent.get(screen);
-        MeteorClient.EVENT_BUS.post(event);
+        D3.EVENT_BUS.post(event);
 
         if (event.isCancelled()) info.cancel();
     }
 
     @ModifyExpressionValue(method = "doItemUse", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;crosshairTarget:Lnet/minecraft/util/hit/HitResult;", ordinal = 1))
     private HitResult doItemUseMinecraftClientCrosshairTargetProxy(HitResult original) {
-        return MeteorClient.EVENT_BUS.post(ItemUseCrosshairTargetEvent.get(original)).target;
+        return D3.EVENT_BUS.post(ItemUseCrosshairTargetEvent.get(original)).target;
     }
 
     @ModifyReturnValue(method = "reloadResources(ZLnet/minecraft/client/MinecraftClient$LoadingContext;)Ljava/util/concurrent/CompletableFuture;", at = @At("RETURN"))
     private CompletableFuture<Void> onReloadResourcesNewCompletableFuture(CompletableFuture<Void> original) {
-        return original.thenRun(() -> MeteorClient.EVENT_BUS.post(ResourcePacksReloadedEvent.get()));
+        return original.thenRun(() -> D3.EVENT_BUS.post(ResourcePacksReloadedEvent.get()));
     }
 
     @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
@@ -139,7 +139,7 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
 
     @Inject(method = "onResolutionChanged", at = @At("TAIL"))
     private void onResolutionChanged(CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(ResolutionChangedEvent.get());
+        D3.EVENT_BUS.post(ResolutionChangedEvent.get());
     }
 
     // Time delta

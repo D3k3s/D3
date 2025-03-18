@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.waypoints;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.systems.System;
@@ -48,7 +48,7 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
 
     @Override
     public void init() {
-        File iconsFolder = new File(new File(MeteorClient.FOLDER, "waypoints"), "icons");
+        File iconsFolder = new File(new File(D3.FOLDER, "waypoints"), "icons");
         iconsFolder.mkdirs();
 
         for (String builtinIcon : BUILTIN_ICONS) {
@@ -67,7 +67,7 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
                     icons.put(name, texture);
                 }
                 catch (IOException e) {
-                    MeteorClient.LOG.error("Failed to read a waypoint icon", e);
+                    D3.LOG.error("Failed to read a waypoint icon", e);
                 }
             }
         }
@@ -130,7 +130,7 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
     @Override
     public File getFile() {
         if (!Utils.canUpdate()) return null;
-        return new File(new File(MeteorClient.FOLDER, "waypoints"), Utils.getFileWorldName() + ".nbt");
+        return new File(new File(D3.FOLDER, "waypoints"), Utils.getFileWorldName() + ".nbt");
     }
 
     public boolean isEmpty() {
@@ -143,11 +143,11 @@ public class Waypoints extends System<Waypoints> implements Iterable<Waypoint> {
     }
 
     private void copyIcon(File file) {
-        String path = "/assets/" + MeteorClient.MOD_ID + "/textures/icons/waypoints/" + file.getName();
+        String path = "/assets/" + D3.MOD_ID + "/textures/icons/waypoints/" + file.getName();
         InputStream in = Waypoints.class.getResourceAsStream(path);
 
         if (in == null) {
-            MeteorClient.LOG.error("Failed to read a resource: {}", path);
+            D3.LOG.error("Failed to read a resource: {}", path);
             return;
         }
 

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import com.llamalad7.mixinextras.injector.*;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.LivingEntityMoveEvent;
 import meteordevelopment.meteorclient.events.entity.player.*;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -66,7 +66,7 @@ public abstract class EntityMixin {
     @ModifyReturnValue(method = "getJumpVelocityMultiplier", at = @At("RETURN"))
     private float onGetJumpVelocityMultiplier(float original) {
         if ((Object) this == mc.player) {
-            JumpVelocityMultiplierEvent event = MeteorClient.EVENT_BUS.post(JumpVelocityMultiplierEvent.get());
+            JumpVelocityMultiplierEvent event = D3.EVENT_BUS.post(JumpVelocityMultiplierEvent.get());
             return (original * event.multiplier);
         }
 
@@ -76,10 +76,10 @@ public abstract class EntityMixin {
     @Inject(method = "move", at = @At("HEAD"))
     private void onMove(MovementType type, Vec3d movement, CallbackInfo info) {
         if ((Object) this == mc.player) {
-            MeteorClient.EVENT_BUS.post(PlayerMoveEvent.get(type, movement));
+            D3.EVENT_BUS.post(PlayerMoveEvent.get(type, movement));
         }
         else if ((Object) this instanceof LivingEntity) {
-            MeteorClient.EVENT_BUS.post(LivingEntityMoveEvent.get((LivingEntity) (Object) this, movement));
+            D3.EVENT_BUS.post(LivingEntityMoveEvent.get((LivingEntity) (Object) this, movement));
         }
     }
 

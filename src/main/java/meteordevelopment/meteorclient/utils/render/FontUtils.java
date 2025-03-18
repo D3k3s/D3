@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.render;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.renderer.Fonts;
 import meteordevelopment.meteorclient.renderer.text.*;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -101,7 +101,7 @@ public class FontUtils {
 
         FontFace fontFace = new BuiltinFontFace(fontInfo, builtin);
         if (!addFont(fontList, fontFace)) {
-            MeteorClient.LOG.warn("Failed to load builtin font {}", fontFace);
+            D3.LOG.warn("Failed to load builtin font {}", fontFace);
         }
     }
 
@@ -131,7 +131,7 @@ public class FontUtils {
 
             FontFace fontFace = new SystemFontFace(fontInfo, file.toPath());
             if (!addFont(fontList, fontFace)) {
-                MeteorClient.LOG.warn("Failed to load system font {}", fontFace);
+                D3.LOG.warn("Failed to load system font {}", fontFace);
             }
         }
     }
@@ -153,7 +153,7 @@ public class FontUtils {
     }
 
     public static InputStream stream(String builtin) {
-        return FontUtils.class.getResourceAsStream("/assets/" + MeteorClient.MOD_ID + "/fonts/" + builtin + ".ttf");
+        return FontUtils.class.getResourceAsStream("/assets/" + D3.MOD_ID + "/fonts/" + builtin + ".ttf");
     }
 
     public static InputStream stream(File file) {

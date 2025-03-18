@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.entity.BoatMoveEvent;
 import net.minecraft.entity.vehicle.AbstractBoatEntity;
 
@@ -24,7 +24,7 @@ public abstract class AbstractBoatEntityMixin {
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/vehicle/AbstractBoatEntity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"))
     private void onTickInvokeMove(CallbackInfo info) {
         if ((Object) this instanceof AbstractBoatEntity boatEntity) {
-            MeteorClient.EVENT_BUS.post(BoatMoveEvent.get(boatEntity));
+            D3.EVENT_BUS.post(BoatMoveEvent.get(boatEntity));
         }
     }
 

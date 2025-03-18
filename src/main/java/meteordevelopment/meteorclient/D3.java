@@ -32,14 +32,14 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.util.Identifier;
 
-public class MeteorClient implements ClientModInitializer {
-    public static final String MOD_ID = "meteor-client";
+public class D3 implements ClientModInitializer {
+    public static final String MOD_ID = "d3-client";
     public static final ModMetadata MOD_META;
     public static final String NAME;
     public static final Version VERSION;
     public static final String BUILD_NUMBER;
 
-    public static MeteorClient INSTANCE;
+    public static D3 INSTANCE;
     public static MeteorAddon ADDON;
 
     public static MinecraftClient mc;
@@ -60,7 +60,7 @@ public class MeteorClient implements ClientModInitializer {
         if (versionString.equals("${version}")) versionString = "0.0.0";
 
         VERSION = new Version(versionString);
-        BUILD_NUMBER = MOD_META.getCustomValue(MeteorClient.MOD_ID + ":build_number").getAsString();
+        BUILD_NUMBER = MOD_META.getCustomValue(D3.MOD_ID + ":build_number").getAsString();
     }
 
     @Override
@@ -176,6 +176,6 @@ public class MeteorClient implements ClientModInitializer {
     }
 
     public static Identifier identifier(String path) {
-        return Identifier.of(MeteorClient.MOD_ID, path);
+        return Identifier.of(D3.MOD_ID, path);
     }
 }

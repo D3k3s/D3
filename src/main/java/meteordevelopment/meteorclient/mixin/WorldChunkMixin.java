@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.BlockUpdateEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +24,6 @@ public abstract class WorldChunkMixin {
 
     @Inject(method = "setBlockState", at = @At("TAIL"))
     private void onSetBlockState(BlockPos pos, BlockState state, boolean moved, CallbackInfoReturnable<BlockState> info) {
-        if (world.isClient) MeteorClient.EVENT_BUS.post(BlockUpdateEvent.get(pos, info.getReturnValue(), state));
+        if (world.isClient) D3.EVENT_BUS.post(BlockUpdateEvent.get(pos, info.getReturnValue(), state));
     }
 }

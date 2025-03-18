@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.renderer;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.renderer.text.CustomTextRenderer;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class Fonts {
     public static final String[] BUILTIN_FONTS = { "JetBrains Mono", "Comfortaa", "Tw Cen MT", "Pixelation" };
@@ -49,7 +49,7 @@ public class Fonts {
 
         FONT_FAMILIES.sort(Comparator.comparing(FontFamily::getName));
 
-        MeteorClient.LOG.info("Found {} font families.", FONT_FAMILIES.size());
+        D3.LOG.info("Found {} font families.", FONT_FAMILIES.size());
 
         DEFAULT_FONT_FAMILY = FontUtils.getBuiltinFontInfo(BUILTIN_FONTS[1]).family();
         DEFAULT_FONT = getFamily(DEFAULT_FONT_FAMILY).get(FontInfo.Type.Regular);
@@ -66,14 +66,14 @@ public class Fonts {
 
         try {
             RENDERER = new CustomTextRenderer(fontFace);
-            MeteorClient.EVENT_BUS.post(CustomFontChangedEvent.get());
+            D3.EVENT_BUS.post(CustomFontChangedEvent.get());
         }
         catch (Exception e) {
             if (fontFace.equals(DEFAULT_FONT)) {
                 throw new RuntimeException("Failed to load default font: " + fontFace, e);
             }
 
-            MeteorClient.LOG.error("Failed to load font: {}", fontFace, e);
+            D3.LOG.error("Failed to load font: {}", fontFace, e);
             load(Fonts.DEFAULT_FONT);
         }
 

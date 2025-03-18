@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.mixin;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.commands.Commands;
 import meteordevelopment.meteorclient.events.entity.EntityDestroyEvent;
 import meteordevelopment.meteorclient.events.entity.player.PickItemsEvent;
@@ -75,43 +75,43 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
     @Inject(method = "onGameJoin", at = @At("TAIL"))
     private void onGameJoinTail(GameJoinS2CPacket packet, CallbackInfo info) {
         if (worldNotNull) {
-            MeteorClient.EVENT_BUS.post(GameLeftEvent.get());
+            D3.EVENT_BUS.post(GameLeftEvent.get());
         }
 
-        MeteorClient.EVENT_BUS.post(GameJoinedEvent.get());
+        D3.EVENT_BUS.post(GameJoinedEvent.get());
     }
 
     // the server sends a GameJoin packet after the reconfiguration phase
     @Inject(method = "onEnterReconfiguration", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/util/thread/ThreadExecutor;)V", shift = At.Shift.AFTER))
     private void onEnterReconfiguration(EnterReconfigurationS2CPacket packet, CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(GameLeftEvent.get());
+        D3.EVENT_BUS.post(GameLeftEvent.get());
     }
 
     @Inject(method = "onPlaySound", at = @At("HEAD"))
     private void onPlaySound(PlaySoundS2CPacket packet, CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(PlaySoundPacketEvent.get(packet));
+        D3.EVENT_BUS.post(PlaySoundPacketEvent.get(packet));
     }
 
     @Inject(method = "onChunkData", at = @At("TAIL"))
     private void onChunkData(ChunkDataS2CPacket packet, CallbackInfo info) {
         WorldChunk chunk = client.world.getChunk(packet.getChunkX(), packet.getChunkZ());
-        MeteorClient.EVENT_BUS.post(new ChunkDataEvent(chunk));
+        D3.EVENT_BUS.post(new ChunkDataEvent(chunk));
     }
 
     @Inject(method = "onScreenHandlerSlotUpdate", at = @At("TAIL"))
     private void onContainerSlotUpdate(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(ContainerSlotUpdateEvent.get(packet));
+        D3.EVENT_BUS.post(ContainerSlotUpdateEvent.get(packet));
     }
 
     @Inject(method = "onInventory", at = @At("TAIL"))
     private void onInventory(InventoryS2CPacket packet, CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(InventoryEvent.get(packet));
+        D3.EVENT_BUS.post(InventoryEvent.get(packet));
     }
 
     @Inject(method = "onEntitiesDestroy", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/EntitiesDestroyS2CPacket;getEntityIds()Lit/unimi/dsi/fastutil/ints/IntList;"))
     private void onEntitiesDestroy(EntitiesDestroyS2CPacket packet, CallbackInfo ci) {
         for (int id : packet.getEntityIds()) {
-            MeteorClient.EVENT_BUS.post(EntityDestroyEvent.get(client.world.getEntityById(id)));
+            D3.EVENT_BUS.post(EntityDestroyEvent.get(client.world.getEntityById(id)));
         }
     }
 
@@ -121,7 +121,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
         Entity entity = client.world.getEntityById(packet.getCollectorEntityId());
 
         if (itemEntity instanceof ItemEntity && entity == client.player) {
-            MeteorClient.EVENT_BUS.post(PickItemsEvent.get(((ItemEntity) itemEntity).getStack(), packet.getStackAmount()));
+            D3.EVENT_BUS.post(PickItemsEvent.get(((ItemEntity) itemEntity).getStack(), packet.getStackAmount()));
         }
     }
 
@@ -130,7 +130,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
         if (ignoreChatMessage) return;
 
         if (!message.startsWith(Config.get().prefix.get()) && !(BaritoneUtils.IS_AVAILABLE && message.startsWith(BaritoneUtils.getPrefix()))) {
-            SendMessageEvent event = MeteorClient.EVENT_BUS.post(SendMessageEvent.get(message));
+            SendMessageEvent event = D3.EVENT_BUS.post(SendMessageEvent.get(message));
 
             if (!event.isCancelled()) {
                 ignoreChatMessage = true;

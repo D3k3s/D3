@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
 import meteordevelopment.meteorclient.systems.config.Config;
@@ -53,12 +53,12 @@ public class Systems {
         add(new Proxies());
         add(new Hud());
 
-        MeteorClient.EVENT_BUS.subscribe(Systems.class);
+        D3.EVENT_BUS.subscribe(Systems.class);
     }
 
     public static System<?> add(System<?> system) {
         systems.put(system.getClass(), system);
-        MeteorClient.EVENT_BUS.subscribe(system);
+        D3.EVENT_BUS.subscribe(system);
         system.init();
 
         return system;
@@ -73,11 +73,11 @@ public class Systems {
 
     public static void save(File folder) {
         long start = java.lang.System.currentTimeMillis();
-        MeteorClient.LOG.info("Saving");
+        D3.LOG.info("Saving");
 
         for (System<?> system : systems.values()) system.save(folder);
 
-        MeteorClient.LOG.info("Saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
+        D3.LOG.info("Saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
     }
 
     public static void save() {
@@ -86,12 +86,12 @@ public class Systems {
 
     public static void load(File folder) {
         long start = java.lang.System.currentTimeMillis();
-        MeteorClient.LOG.info("Loading");
+        D3.LOG.info("Loading");
 
         for (Runnable task : preLoadTasks) task.run();
         for (System<?> system : systems.values()) system.load(folder);
 
-        MeteorClient.LOG.info("Loaded in {} milliseconds", java.lang.System.currentTimeMillis() - start);
+        D3.LOG.info("Loaded in {} milliseconds", java.lang.System.currentTimeMillis() - start);
     }
 
     public static void load() {

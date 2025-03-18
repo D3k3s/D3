@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.hud.elements;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.gui.utils.StarscriptTextBoxRenderer;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.hud.Hud;
@@ -41,7 +41,7 @@ public class TextHud extends HudElement {
     public final Setting<String> text = sgGeneral.add(new StringSetting.Builder()
         .name("text")
         .description("Text to display with Starscript.")
-        .defaultValue(MeteorClient.NAME)
+        .defaultValue(D3.NAME)
         .onChanged(s -> recompile())
         .wide()
         .renderer(StarscriptTextBoxRenderer.class)

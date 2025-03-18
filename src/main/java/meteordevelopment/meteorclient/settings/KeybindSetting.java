@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.settings;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.gui.widgets.WKeybind;
@@ -26,7 +26,7 @@ public class KeybindSetting extends Setting<Keybind> {
         super(name, description, defaultValue, onChanged, onModuleActivated, visible);
 
         this.action = action;
-        MeteorClient.EVENT_BUS.subscribe(this);
+        D3.EVENT_BUS.subscribe(this);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

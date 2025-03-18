@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.misc;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.utils.render.prompts.OkPrompt;
 import net.minecraft.nbt.*;
@@ -15,7 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.util.*;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class NbtUtils {
     private NbtUtils() {
@@ -60,7 +60,7 @@ public class NbtUtils {
             mc.keyboard.setClipboard(Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
             return true;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Error copying {} NBT to clipboard!", name);
+            D3.LOG.error("Error copying {} NBT to clipboard!", name);
 
             OkPrompt.create()
                 .title(String.format("Error copying %s NBT to clipboard!", name))
@@ -95,7 +95,7 @@ public class NbtUtils {
 
             return pasted;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Invalid NBT data pasted!");
+            D3.LOG.error("Invalid NBT data pasted!");
 
             OkPrompt.create()
                 .title("Error pasting NBT data!")

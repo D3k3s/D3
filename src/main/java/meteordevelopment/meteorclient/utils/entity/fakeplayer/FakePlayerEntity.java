@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class FakePlayerEntity extends OtherClientPlayerEntity {
     public boolean doNotPush, hideWhenInsideCamera;

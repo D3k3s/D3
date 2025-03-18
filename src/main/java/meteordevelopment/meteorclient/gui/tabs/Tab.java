@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui.tabs;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import net.minecraft.client.gui.screen.Screen;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public abstract class Tab {
     public final String name;

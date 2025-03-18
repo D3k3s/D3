@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.misc;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.orbit.EventHandler;
@@ -22,7 +22,7 @@ public class CPSUtils {
 
     @PreInit
     public static void init() {
-        MeteorClient.EVENT_BUS.subscribe(CPSUtils.class);
+        D3.EVENT_BUS.subscribe(CPSUtils.class);
     }
 
     @EventHandler

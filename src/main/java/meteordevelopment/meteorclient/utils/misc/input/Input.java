@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.utils.misc.CursorStyle;
 import net.minecraft.client.option.KeyBinding;
 import org.lwjgl.glfw.GLFW;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class Input {
     private static final boolean[] keys = new boolean[512];

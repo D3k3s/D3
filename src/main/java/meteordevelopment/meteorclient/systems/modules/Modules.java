@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.serialization.Lifecycle;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
@@ -255,7 +255,7 @@ public class Modules extends System<Modules> {
         synchronized (active) {
             if (!active.contains(module)) {
                 active.add(module);
-                MeteorClient.EVENT_BUS.post(ActiveModulesChangedEvent.get());
+                D3.EVENT_BUS.post(ActiveModulesChangedEvent.get());
             }
         }
     }
@@ -263,7 +263,7 @@ public class Modules extends System<Modules> {
     void removeActive(Module module) {
         synchronized (active) {
             if (active.remove(module)) {
-                MeteorClient.EVENT_BUS.post(ActiveModulesChangedEvent.get());
+                D3.EVENT_BUS.post(ActiveModulesChangedEvent.get());
             }
         }
     }
@@ -316,7 +316,7 @@ public class Modules extends System<Modules> {
         }
         else return false;
 
-        MeteorClient.EVENT_BUS.post(ModuleBindChangedEvent.get(moduleToBind));
+        D3.EVENT_BUS.post(ModuleBindChangedEvent.get(moduleToBind));
         moduleToBind = null;
 
         return true;
@@ -364,7 +364,7 @@ public class Modules extends System<Modules> {
         synchronized (active) {
             for (Module module : modules) {
                 if (module.isActive() && !module.runInMainMenu) {
-                    MeteorClient.EVENT_BUS.subscribe(module);
+                    D3.EVENT_BUS.subscribe(module);
                     module.onActivate();
                 }
             }
@@ -376,7 +376,7 @@ public class Modules extends System<Modules> {
         synchronized (active) {
             for (Module module : modules) {
                 if (module.isActive() && !module.runInMainMenu) {
-                    MeteorClient.EVENT_BUS.unsubscribe(module);
+                    D3.EVENT_BUS.unsubscribe(module);
                     module.onDeactivate();
                 }
             }
@@ -526,7 +526,7 @@ public class Modules extends System<Modules> {
 
     public static class ModuleRegistry extends SimpleRegistry<Module> {
         public ModuleRegistry() {
-            super(RegistryKey.ofRegistry(MeteorClient.identifier("modules")), Lifecycle.stable());
+            super(RegistryKey.ofRegistry(D3.identifier("modules")), Lifecycle.stable());
         }
 
         @Override

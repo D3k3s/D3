@@ -17,7 +17,7 @@ import net.minecraft.world.chunk.Chunk;
 
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 import static meteordevelopment.meteorclient.utils.Utils.getRenderDistance;
 
 public class ESPChunk {

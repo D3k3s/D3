@@ -2,7 +2,7 @@ package meteordevelopment.meteorclient.utils.render.postprocess;
 
 import meteordevelopment.meteorclient.mixininterface.IWorldRenderer;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public abstract class EntityShader extends PostProcessShader {
     @Override

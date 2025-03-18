@@ -15,7 +15,7 @@ import net.minecraft.item.Items;
 
 import java.util.Iterator;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class WItemWithLabel extends WHorizontalList {
     private ItemStack itemStack;

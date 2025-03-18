@@ -10,7 +10,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.renderer.*;
 import meteordevelopment.meteorclient.renderer.text.CustomTextRenderer;
@@ -54,7 +54,7 @@ public class HudRenderer {
     public double delta;
 
     private HudRenderer() {
-        MeteorClient.EVENT_BUS.subscribe(this);
+        D3.EVENT_BUS.subscribe(this);
     }
 
     public void begin(DrawContext drawContext) {

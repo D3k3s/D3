@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.utils.network;
 import com.mojang.serialization.Lifecycle;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -489,7 +489,7 @@ public class PacketUtils {
 
     private static class PacketRegistry extends SimpleRegistry<Class<? extends Packet<?>>> {
         public PacketRegistry() {
-            super(RegistryKey.ofRegistry(MeteorClient.identifier("packets")), Lifecycle.stable());
+            super(RegistryKey.ofRegistry(D3.identifier("packets")), Lifecycle.stable());
         }
 
         @Override

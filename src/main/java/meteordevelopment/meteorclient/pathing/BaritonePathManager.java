@@ -14,7 +14,7 @@ import baritone.api.process.PathingCommand;
 import baritone.api.process.PathingCommandType;
 import baritone.api.utils.Rotation;
 import baritone.api.utils.SettingsUtil;
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
@@ -29,7 +29,7 @@ import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
 import java.util.function.Predicate;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static meteordevelopment.meteorclient.D3.mc;
 
 public class BaritonePathManager implements IPathManager {
     private final VarHandle rotationField;
@@ -40,7 +40,7 @@ public class BaritonePathManager implements IPathManager {
 
     public BaritonePathManager() {
         // Subscribe to event bus
-        MeteorClient.EVENT_BUS.subscribe(this);
+        D3.EVENT_BUS.subscribe(this);
 
         // Find rotation field
         Class<?> klass = BaritoneAPI.getProvider().getPrimaryBaritone().getLookBehavior().getClass();

@@ -14,7 +14,7 @@ import com.llamalad7.mixinextras.injector.*;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.D3;
 import meteordevelopment.meteorclient.events.render.*;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.renderer.Renderer3D;
@@ -61,7 +61,7 @@ public abstract class GameRendererMixin {
     private void onRenderWorld(RenderTickCounter tickCounter, CallbackInfo ci, @Local(ordinal = 0) Matrix4f projection, @Local(ordinal = 2) Matrix4f view, @Local(ordinal = 1) float tickDelta, @Local MatrixStack matrixStack) {
         if (!Utils.canUpdate()) return;
 
-        Profilers.get().push(MeteorClient.MOD_ID + "_render");
+        Profilers.get().push(D3.MOD_ID + "_render");
 
         // Create renderer and event
 
@@ -88,7 +88,7 @@ public abstract class GameRendererMixin {
         // Render
 
         renderer.begin();
-        MeteorClient.EVENT_BUS.post(event);
+        D3.EVENT_BUS.post(event);
         renderer.render(matrixStack);
 
         // Revert model view matrix
@@ -100,7 +100,7 @@ public abstract class GameRendererMixin {
 
     @Inject(method = "renderWorld", at = @At("TAIL"))
     private void onRenderWorldTail(CallbackInfo info) {
-        MeteorClient.EVENT_BUS.post(RenderAfterWorldEvent.get());
+        D3.EVENT_BUS.post(RenderAfterWorldEvent.get());
     }
 
     @Inject(method = "showFloatingItem", at = @At("HEAD"), cancellable = true)
@@ -117,7 +117,7 @@ public abstract class GameRendererMixin {
 
     @ModifyReturnValue(method = "getFov",at = @At("RETURN"))
     private float modifyFov(float original) {
-        return MeteorClient.EVENT_BUS.post(GetFovEvent.get(original)).fov;
+        return D3.EVENT_BUS.post(GetFovEvent.get(original)).fov;
     }
 
     // Freecam
