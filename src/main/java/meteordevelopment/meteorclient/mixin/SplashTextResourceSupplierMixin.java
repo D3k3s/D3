@@ -23,8 +23,11 @@ public abstract class SplashTextResourceSupplierMixin {
     private boolean override = true;
     @Unique
     private static final Random random = new Random();
-    @Unique
-    private final List<String> meteorSplashes = getMeteorSplashes();
+	@Unique
+	private final List<String> meteorSplashes = List.of(
+			"\u00a7e\u00a7lShine\u2738\u00a7e bright like \u00a7d\u00a7lD3k3s!",
+			"\u00a7e\u00a7lShine\u2738 \u00a7fis the most powerful clan!",
+			"\u00a7dНя-ня-ня! Я Дашулька \u00a7d\u00a7lD3k3s!", "\u00a7d\u00a7lD❥k❥s!");
 
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
@@ -33,18 +36,4 @@ public abstract class SplashTextResourceSupplierMixin {
         if (override) cir.setReturnValue(new SplashTextRenderer(meteorSplashes.get(random.nextInt(meteorSplashes.size()))));
         override = !override;
     }
-
-    @Unique
-    private static List<String> getMeteorSplashes() {
-        return List.of(
-                "Meteor on Crack!",
-                "Star Meteor Client on GitHub!",
-                "Based utility mod.",
-                "§6MineGame159 §fbased god",
-                "§4meteorclient.com",
-                "§4Meteor on Crack!",
-                "§6Meteor on Crack!"
-        );
-    }
-
 }
