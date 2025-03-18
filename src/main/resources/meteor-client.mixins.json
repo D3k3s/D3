@@ -155,7 +155,6 @@
     "TextMixin",
     "TextRendererMixin",
     "TextVisitFactoryMixin",
-    "TitleScreenMixin",
     "TooltipComponentMixin",
     "TransformationMixin",
     "TridentItemMixin",
