@@ -5,27 +5,113 @@
 
 package meteordevelopment.meteorclient.utils;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_APOSTROPHE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_CAPS_LOCK;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DELETE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_END;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F1;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F10;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F11;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F12;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F13;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F14;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F15;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F16;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F17;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F18;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F19;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F2;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F20;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F21;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F22;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F23;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F24;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F25;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F3;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F4;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F5;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F6;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F7;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F8;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F9;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_GRAVE_ACCENT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_HOME;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_INSERT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ENTER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_ALT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SUPER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_MENU;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_NUM_LOCK;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_UP;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAUSE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_PRINT_SCREEN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_ALT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SUPER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UNKNOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_WORLD_1;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_WORLD_2;
+import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Random;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Range;
+import org.joml.Matrix4f;
+import org.joml.Vector3d;
+
 import com.mojang.blaze3d.systems.ProjectionType;
 import com.mojang.blaze3d.systems.RenderSystem;
-import it.unimi.dsi.fastutil.objects.*;
+
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMaps;
+import it.unimi.dsi.fastutil.objects.Reference2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
-import meteordevelopment.meteorclient.mixin.*;
+import meteordevelopment.meteorclient.mixin.ClientPlayNetworkHandlerAccessor;
+import meteordevelopment.meteorclient.mixin.ContainerComponentAccessor;
+import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
+import meteordevelopment.meteorclient.mixin.MinecraftServerAccessor;
+import meteordevelopment.meteorclient.mixin.ReloadStateAccessor;
+import meteordevelopment.meteorclient.mixin.ResourceReloadLoggerAccessor;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
 import meteordevelopment.meteorclient.settings.StatusEffectAmplifierMapSetting;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.EChestMemory;
-import meteordevelopment.meteorclient.utils.render.PeekScreen;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockEntityIterator;
 import meteordevelopment.meteorclient.utils.world.ChunkIterator;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
@@ -41,7 +127,20 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.BowItem;
+import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.EggItem;
+import net.minecraft.item.EnderPearlItem;
+import net.minecraft.item.ExperienceBottleItem;
+import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.LingeringPotionItem;
+import net.minecraft.item.SnowballItem;
+import net.minecraft.item.SplashPotionItem;
+import net.minecraft.item.TridentItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.RegistryKey;
@@ -52,25 +151,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.chunk.Chunk;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Range;
-import org.joml.Matrix4f;
-import org.joml.Vector3d;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static org.lwjgl.glfw.GLFW.*;
 
 public class Utils {
     public static final Pattern FILE_NAME_INVALID_CHARS_PATTERN = Pattern.compile("[\\s\\\\/:*?\"<>|]");
@@ -224,8 +304,6 @@ public class Utils {
     public static boolean openContainer(ItemStack itemStack, ItemStack[] contents, boolean pause) {
         if (hasItems(itemStack) || itemStack.getItem() == Items.ENDER_CHEST) {
             Utils.getItemsInContainerItem(itemStack, contents);
-            if (pause) screenToOpen = new PeekScreen(itemStack, contents);
-            else mc.setScreen(new PeekScreen(itemStack, contents));
             return true;
         }
 
@@ -270,7 +348,6 @@ public class Utils {
     public static Color getShulkerColor(ItemStack shulkerItem) {
         if (shulkerItem.getItem() instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();
-            if (block == Blocks.ENDER_CHEST) return BetterTooltips.ECHEST_COLOR;
 
             if (block instanceof ShulkerBoxBlock shulkerBlock) {
                 DyeColor dye = shulkerBlock.getColor();

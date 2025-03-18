@@ -5,20 +5,26 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
-import java.util.*;
+import java.util.Map;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.mixin.*;
+import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccessor;
+import meteordevelopment.meteorclient.mixin.WorldRendererAccessor;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
-import meteordevelopment.meteorclient.settings.*;
-import meteordevelopment.meteorclient.systems.modules.*;
+import meteordevelopment.meteorclient.settings.BoolSetting;
+import meteordevelopment.meteorclient.settings.ColorSetting;
+import meteordevelopment.meteorclient.settings.EnumSetting;
+import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.settings.SettingGroup;
+import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.systems.modules.world.PacketMine;
-import meteordevelopment.meteorclient.utils.render.color.*;
+import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.BlockBreakingInfo;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 
 public class BreakIndicators extends Module {
@@ -63,9 +69,6 @@ public class BreakIndicators extends Module {
     private void onRender(Render3DEvent event) {
         renderNormal(event);
 
-        if (packetMine.get() && !Modules.get().get(PacketMine.class).blocks.isEmpty()) {
-            renderPacket(event, Modules.get().get(PacketMine.class).blocks);
-        }
     }
 
     private void renderNormal(Render3DEvent event) {
@@ -104,22 +107,6 @@ public class BreakIndicators extends Module {
         });
     }
 
-    private void renderPacket(Render3DEvent event, List<PacketMine.MyBlock> blocks) {
-        for (PacketMine.MyBlock block : blocks) {
-            if (block.mining && block.progress != Double.POSITIVE_INFINITY) {
-                VoxelShape shape = block.blockState.getOutlineShape(mc.world, block.blockPos);
-                if (shape == null || shape.isEmpty()) return;
-
-                Box orig = shape.getBoundingBox();
-
-                double progressNormalised = block.progress > 1 ? 1 : block.progress;
-                double shrinkFactor = 1d - progressNormalised;
-                BlockPos pos = block.blockPos;
-
-                renderBlock(event, orig, pos, shrinkFactor, progressNormalised);
-            }
-        }
-    }
 
     private void renderBlock(Render3DEvent event, Box orig, BlockPos pos, double shrinkFactor, double progress) {
         Box box = orig.shrink(

@@ -5,9 +5,14 @@
 
 package meteordevelopment.meteorclient.asm;
 
-import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.asm.transformers.PacketInflaterTransformer;
-import net.fabricmc.loader.api.FabricLoader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
@@ -16,13 +21,8 @@ import org.spongepowered.asm.mixin.transformer.IMixinTransformer;
 import org.spongepowered.asm.mixin.transformer.ext.IExtensionRegistry;
 import org.spongepowered.asm.transformers.MixinClassWriter;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import meteordevelopment.meteorclient.MeteorClient;
+import net.fabricmc.loader.api.FabricLoader;
 
 /**
  * When mixins are just not good enough
@@ -41,7 +41,6 @@ public class Asm {
         if (INSTANCE != null) return;
 
         INSTANCE = new Asm(System.getProperty("meteor.asm.export") != null);
-        INSTANCE.add(new PacketInflaterTransformer());
     }
 
     private void add(AsmTransformer transformer) {

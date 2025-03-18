@@ -5,8 +5,11 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import meteordevelopment.meteorclient.mixininterface.ISlot;
-import meteordevelopment.meteorclient.utils.render.PeekScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -17,10 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Pair;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class InventorySorter {
     private final HandledScreen<?> screen;
@@ -34,7 +33,7 @@ public class InventorySorter {
         this.screen = screen;
 
         this.originInvPart = getInvPart(originSlot);
-        if (originInvPart == InvPart.Invalid || originInvPart == InvPart.Hotbar || screen instanceof PeekScreen) {
+        if (originInvPart == InvPart.Invalid || originInvPart == InvPart.Hotbar) {
             invalid = true;
             return;
         }

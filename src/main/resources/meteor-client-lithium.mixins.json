@@ -5,7 +5,6 @@
   "plugin": "meteordevelopment.meteorclient.MixinPlugin",
   "client": [
     "ChunkAwareBlockCollisionSweeperMixin",
-    "LithiumEntityCollisionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

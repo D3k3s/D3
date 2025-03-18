@@ -8,41 +8,103 @@ package meteordevelopment.meteorclient.systems.modules;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.serialization.Lifecycle;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.events.game.*;
-import meteordevelopment.meteorclient.events.meteor.*;
+import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
+import meteordevelopment.meteorclient.events.game.GameLeftEvent;
+import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.meteor.ActiveModulesChangedEvent;
+import meteordevelopment.meteorclient.events.meteor.KeyEvent;
+import meteordevelopment.meteorclient.events.meteor.ModuleBindChangedEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
-import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.config.Config;
-import meteordevelopment.meteorclient.systems.modules.combat.*;
-import meteordevelopment.meteorclient.systems.modules.misc.*;
-import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
-import meteordevelopment.meteorclient.systems.modules.movement.*;
-import meteordevelopment.meteorclient.systems.modules.movement.speed.Speed;
-import meteordevelopment.meteorclient.systems.modules.player.*;
-import meteordevelopment.meteorclient.systems.modules.render.*;
+import meteordevelopment.meteorclient.systems.modules.combat.BowAimbot;
+import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
+import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
+import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
+import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
+import meteordevelopment.meteorclient.systems.modules.misc.NameProtect;
+import meteordevelopment.meteorclient.systems.modules.misc.ServerSpoof;
+import meteordevelopment.meteorclient.systems.modules.misc.SoundBlocker;
+import meteordevelopment.meteorclient.systems.modules.misc.Spam;
+import meteordevelopment.meteorclient.systems.modules.movement.AntiAFK;
+import meteordevelopment.meteorclient.systems.modules.movement.AutoWalk;
+import meteordevelopment.meteorclient.systems.modules.movement.ClickTP;
+import meteordevelopment.meteorclient.systems.modules.movement.Flight;
+import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
+import meteordevelopment.meteorclient.systems.modules.movement.SafeWalk;
+import meteordevelopment.meteorclient.systems.modules.movement.Scaffold;
+import meteordevelopment.meteorclient.systems.modules.movement.Sneak;
+import meteordevelopment.meteorclient.systems.modules.movement.Sprint;
+import meteordevelopment.meteorclient.systems.modules.player.AutoClicker;
+import meteordevelopment.meteorclient.systems.modules.player.AutoFish;
+import meteordevelopment.meteorclient.systems.modules.player.FakePlayer;
+import meteordevelopment.meteorclient.systems.modules.player.GhostHand;
+import meteordevelopment.meteorclient.systems.modules.player.MiddleClickExtra;
+import meteordevelopment.meteorclient.systems.modules.player.NoInteract;
+import meteordevelopment.meteorclient.systems.modules.player.NoRotate;
+import meteordevelopment.meteorclient.systems.modules.player.Portals;
+import meteordevelopment.meteorclient.systems.modules.player.Reach;
+import meteordevelopment.meteorclient.systems.modules.render.BetterTab;
+import meteordevelopment.meteorclient.systems.modules.render.BlockSelection;
+import meteordevelopment.meteorclient.systems.modules.render.Blur;
+import meteordevelopment.meteorclient.systems.modules.render.BossStack;
+import meteordevelopment.meteorclient.systems.modules.render.BreakIndicators;
+import meteordevelopment.meteorclient.systems.modules.render.CameraTweaks;
+import meteordevelopment.meteorclient.systems.modules.render.ESP;
+import meteordevelopment.meteorclient.systems.modules.render.FreeLook;
+import meteordevelopment.meteorclient.systems.modules.render.Freecam;
+import meteordevelopment.meteorclient.systems.modules.render.Fullbright;
+import meteordevelopment.meteorclient.systems.modules.render.HandView;
+import meteordevelopment.meteorclient.systems.modules.render.Nametags;
+import meteordevelopment.meteorclient.systems.modules.render.NoRender;
+import meteordevelopment.meteorclient.systems.modules.render.StorageESP;
+import meteordevelopment.meteorclient.systems.modules.render.Trajectories;
+import meteordevelopment.meteorclient.systems.modules.render.Xray;
+import meteordevelopment.meteorclient.systems.modules.render.Zoom;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
 import meteordevelopment.meteorclient.systems.modules.render.marker.Marker;
-import meteordevelopment.meteorclient.systems.modules.world.*;
+import meteordevelopment.meteorclient.systems.modules.world.AirPlace;
+import meteordevelopment.meteorclient.systems.modules.world.Ambience;
+import meteordevelopment.meteorclient.systems.modules.world.Excavator;
+import meteordevelopment.meteorclient.systems.modules.world.Nuker;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
+import meteordevelopment.meteorclient.systems.modules.world.VeinMiner;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.*;
-import meteordevelopment.meteorclient.utils.misc.input.*;
-import meteordevelopment.orbit.*;
-import net.minecraft.nbt.*;
-import net.minecraft.registry.*;
+import meteordevelopment.meteorclient.utils.misc.Keybind;
+import meteordevelopment.meteorclient.utils.misc.ValueComparableMap;
+import meteordevelopment.meteorclient.utils.misc.input.Input;
+import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
+import meteordevelopment.orbit.EventHandler;
+import meteordevelopment.orbit.EventPriority;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
@@ -390,7 +452,6 @@ public class Modules extends System<Modules> {
     }
 
     private void initCombat() {
-        add(new ArrowDodge());
         add(new BowAimbot());
         add(new KillAura());
     }
@@ -411,52 +472,32 @@ public class Modules extends System<Modules> {
         add(new AntiAFK());
         add(new AutoWalk());
         add(new ClickTP());
-        add(new FastClimb());
         add(new Flight());
         add(new GUIMove());
         add(new SafeWalk());
         add(new Scaffold());
         add(new Sneak());
-        add(new Speed());
         add(new Sprint());
     }
 
     private void initRender() {
         add(new BetterTab());
-        add(new BetterTooltips());
         add(new BlockESP());
         add(new BlockSelection());
         add(new Blur());
         add(new BossStack());
-        add(new Breadcrumbs());
         add(new BreakIndicators());
         add(new CameraTweaks());
-        add(new Chams());
-        add(new CityESP());
-        add(new EntityOwner());
         add(new ESP());
         add(new Freecam());
         add(new FreeLook());
         add(new Fullbright());
         add(new HandView());
-        add(new HoleESP());
-        add(new ItemPhysics());
-        add(new ItemHighlight());
-        add(new LightOverlay());
-        add(new LogoutSpots());
         add(new Marker());
         add(new Nametags());
         add(new NoRender());
-        add(new PopChams());
         add(new StorageESP());
-        add(new TimeChanger());
-        add(new Tracers());
-        add(new Trail());
         add(new Trajectories());
-        add(new TunnelESP());
-        add(new VoidESP());
-        add(new WallHack());
-        add(new WaypointsModule());
         add(new Xray());
         add(new Zoom());
     }
@@ -464,53 +505,23 @@ public class Modules extends System<Modules> {
     private void initWorld() {
         add(new AirPlace());
         add(new Ambience());
-        add(new AutoBreed());
-        add(new AutoBrewer());
-        add(new AutoMount());
-        add(new AutoNametag());
-        add(new AutoShearer());
-        add(new AutoSign());
-        add(new AutoSmelter());
-        add(new BuildHeight());
-        add(new Collisions());
-        add(new EChestFarmer());
-        add(new EndermanLook());
-        add(new Flamethrower());
-        add(new LiquidFiller());
-        add(new MountBypass());
-        add(new NoGhostBlocks());
         add(new Nuker());
-        add(new PacketMine());
-        add(new StashFinder());
-        add(new SpawnProofer());
         add(new Timer());
         add(new VeinMiner());
 
         if (BaritoneUtils.IS_AVAILABLE) {
             add(new Excavator());
-            add(new InfinityMiner());
         }
     }
 
     private void initMisc() {
-        add(new AntiPacketKick());
-        add(new AutoLog());
-        add(new AutoReconnect());
-        add(new AutoRespawn());
-        add(new BetterBeacons());
         add(new BetterChat());
-        add(new BookBot());
         add(new DiscordPresence());
         add(new InventoryTweaks());
-        add(new MessageAura());
         add(new NameProtect());
-        add(new Notebot());
-        add(new Notifier());
-        add(new PacketCanceller());
         add(new ServerSpoof());
         add(new SoundBlocker());
         add(new Spam());
-        add(new Swarm());
     }
 
     public static class ModuleRegistry extends SimpleRegistry<Module> {

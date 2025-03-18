@@ -5,20 +5,48 @@
 
 package meteordevelopment.meteorclient.gui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import meteordevelopment.meteorclient.gui.renderer.packer.GuiTexture;
 import meteordevelopment.meteorclient.gui.screens.ModuleScreen;
 import meteordevelopment.meteorclient.gui.screens.ModulesScreen;
-import meteordevelopment.meteorclient.gui.screens.NotebotSongsScreen;
 import meteordevelopment.meteorclient.gui.screens.ProxiesScreen;
 import meteordevelopment.meteorclient.gui.screens.accounts.AccountsScreen;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
 import meteordevelopment.meteorclient.gui.utils.SettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.utils.WindowConfig;
-import meteordevelopment.meteorclient.gui.widgets.*;
-import meteordevelopment.meteorclient.gui.widgets.containers.*;
-import meteordevelopment.meteorclient.gui.widgets.input.*;
-import meteordevelopment.meteorclient.gui.widgets.pressable.*;
+import meteordevelopment.meteorclient.gui.widgets.WAccount;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WItem;
+import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
+import meteordevelopment.meteorclient.gui.widgets.WKeybind;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
+import meteordevelopment.meteorclient.gui.widgets.WQuad;
+import meteordevelopment.meteorclient.gui.widgets.WTexture;
+import meteordevelopment.meteorclient.gui.widgets.WTooltip;
+import meteordevelopment.meteorclient.gui.widgets.WTopBar;
+import meteordevelopment.meteorclient.gui.widgets.WVerticalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WWidget;
+import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
+import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
+import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
+import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
+import meteordevelopment.meteorclient.gui.widgets.containers.WView;
+import meteordevelopment.meteorclient.gui.widgets.containers.WWindow;
+import meteordevelopment.meteorclient.gui.widgets.input.WBlockPosEdit;
+import meteordevelopment.meteorclient.gui.widgets.input.WDoubleEdit;
+import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
+import meteordevelopment.meteorclient.gui.widgets.input.WIntEdit;
+import meteordevelopment.meteorclient.gui.widgets.input.WSlider;
+import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WFavorite;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WTriangle;
 import meteordevelopment.meteorclient.renderer.Texture;
 import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -32,9 +60,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class GuiTheme implements ISerializable<GuiTheme> {
     public static final double TITLE_TEXT_SCALE = 1.25;
@@ -221,10 +246,6 @@ public abstract class GuiTheme implements ISerializable<GuiTheme> {
 
     public WidgetScreen accountsScreen() {
         return new AccountsScreen(this);
-    }
-
-    public NotebotSongsScreen notebotSongs() {
-        return new NotebotSongsScreen(this);
     }
 
     public WidgetScreen proxiesScreen() {

@@ -36,7 +36,6 @@ public class Commands {
         add(new CommandsCommand());
         add(new InventoryCommand());
         add(new NbtCommand());
-        add(new NotebotCommand());
         add(new PeekCommand());
         add(new EnderChestCommand());
         add(new ProfilesCommand());
@@ -44,7 +43,6 @@ public class Commands {
         add(new ResetCommand());
         add(new SayCommand());
         add(new ServerCommand());
-        add(new SwarmCommand());
         add(new ToggleCommand());
         add(new SettingCommand());
         add(new SpectateCommand());
