@@ -68,6 +68,7 @@ import meteordevelopment.meteorclient.systems.modules.player.NoRotate;
 import meteordevelopment.meteorclient.systems.modules.player.Portals;
 import meteordevelopment.meteorclient.systems.modules.player.Reach;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTab;
+import meteordevelopment.meteorclient.systems.modules.render.BlockPartyESP;
 import meteordevelopment.meteorclient.systems.modules.render.BlockSelection;
 import meteordevelopment.meteorclient.systems.modules.render.Blur;
 import meteordevelopment.meteorclient.systems.modules.render.BossStack;
@@ -481,6 +482,7 @@ public class Modules extends System<Modules> {
     }
 
     private void initRender() {
+    	add(new BlockPartyESP());
         add(new BetterTab());
         add(new BlockESP());
         add(new BlockSelection());
