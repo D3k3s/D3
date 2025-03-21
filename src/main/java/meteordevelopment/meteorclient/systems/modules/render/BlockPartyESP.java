@@ -1,3 +1,7 @@
+/*
+ * This file is part of the D3 (https://github.com/D3k3s/D3).
+ * Copyright (c) Anthony Afonin
+ */
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
@@ -42,7 +46,7 @@ public class BlockPartyESP extends Module {
 	private final SettingGroup renderSettings = settings.createGroup("Render");
 
 	private final Setting<Integer> plotSize = plotSettings.add(new IntSetting.Builder().name("Plot size")
-			.description("Playing field size (blocks)").range(2, 100).defaultValue(80).build());
+			.description("Playing field size (blocks)").range(2, 100).defaultValue(70).sliderRange(2, 100).build());
 
 	private final Setting<Integer> plotY = plotSettings.add(new IntSetting.Builder().name("Plot Y")
 			.description("Playing field Y coordinate").range(0, 320).defaultValue(70).noSlider().build());
@@ -54,7 +58,7 @@ public class BlockPartyESP extends Module {
 			.name("shape-mode").description("How the ESP are rendered").defaultValue(ShapeMode.Both).build());
 
 	private final Setting<SettingColor> faceColor = renderSettings
-			.add(new ColorSetting.Builder().name("Face color").defaultValue(new SettingColor(255, 0, 0, 100)).build());
+			.add(new ColorSetting.Builder().name("Face color").defaultValue(new SettingColor(255, 0, 0, 150)).build());
 
 	private final Setting<SettingColor> lineColor = renderSettings.add(
 			new ColorSetting.Builder().name("Line color").defaultValue(new SettingColor(255, 255, 255, 255)).build());
@@ -79,26 +83,9 @@ public class BlockPartyESP extends Module {
 	private void tick(TickEvent.Post event) {
 		Set<Block> hotbarBlocks = getHotbarBlocks();
 
-		if (hotbarBlocks.equals(lastHotbarBlocks)) {
-			return;
-		}
-
-		PlayerEntity player = mc.player;
-		int y = plotY.get();
-		int halfPlot = plotSize.get() / 2;
-
-		correctBlocks.clear();
-
-		for (int x = player.getBlockX() - halfPlot; x < player.getBlockX() + halfPlot; x++) {
-			for (int z = player.getBlockZ() - halfPlot; z < player.getBlockZ() + halfPlot; z++) {
-				BlockPos pos = new BlockPos(x, y, z);
-				Block block = mc.world.getBlockState(pos).getBlock();
-				for (Block b : hotbarBlocks) {
-					if (b.equals(block)) {
-						correctBlocks.add(pos);
-					}
-				}
-			}
+		if (!hotbarBlocks.equals(lastHotbarBlocks)) {
+			updatePositions(hotbarBlocks);
+			lastHotbarBlocks = hotbarBlocks;
 		}
 	}
 
@@ -118,6 +105,32 @@ public class BlockPartyESP extends Module {
 
 		}
 
+	}
+
+	@Override
+	public void onActivate() {
+		lastHotbarBlocks.clear();
+	}
+
+	private void updatePositions(Set<Block> blocks) {
+		correctBlocks.clear();
+
+		PlayerEntity player = mc.player;
+		int y = plotY.get();
+		int halfPlot = plotSize.get() / 2;
+
+		for (int x = player.getBlockX() - halfPlot; x < player.getBlockX() + halfPlot; x++) {
+			for (int z = player.getBlockZ() - halfPlot; z < player.getBlockZ() + halfPlot; z++) {
+				BlockPos pos = new BlockPos(x, y, z);
+				Block block = mc.world.getBlockState(pos).getBlock();
+
+				for (Block b : blocks) {
+					if (b.equals(block)) {
+						correctBlocks.add(pos);
+					}
+				}
+			}
+		}
 	}
 
 	private Set<Block> getHotbarBlocks() {
