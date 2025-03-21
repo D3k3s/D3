@@ -214,6 +214,13 @@ public class Rotations {
 
         return mc.player.getPitch() + MathHelper.wrapDegrees((float) -Math.toDegrees(Math.atan2(diffY, diffXZ)) - mc.player.getPitch());
     }
+    
+    /**
+     * Returns yaw angular distance to specified point
+     */
+    public static double getYawDistanceTo(Vec3d pos) {
+    	return Math.abs(Rotations.getYaw(pos) - mc.player.getYaw());
+    }
 
     public static void setCamRotation(double yaw, double pitch) {
         serverYaw = (float) yaw;
