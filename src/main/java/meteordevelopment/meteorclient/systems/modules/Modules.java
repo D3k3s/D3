@@ -40,9 +40,10 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.config.Config;
-import meteordevelopment.meteorclient.systems.modules.combat.*;
+import meteordevelopment.meteorclient.systems.modules.combat.AimAssist;
+import meteordevelopment.meteorclient.systems.modules.combat.BowAimbot;
+import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
-import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
 import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
 import meteordevelopment.meteorclient.systems.modules.misc.NameProtect;
 import meteordevelopment.meteorclient.systems.modules.misc.ServerSpoof;
@@ -518,7 +519,6 @@ public class Modules extends System<Modules> {
 
     private void initMisc() {
         add(new BetterChat());
-        add(new DiscordPresence());
         add(new InventoryTweaks());
         add(new NameProtect());
         add(new ServerSpoof());
