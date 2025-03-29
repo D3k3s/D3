@@ -19,21 +19,27 @@ import java.util.Random;
 
 @Mixin(SplashTextResourceSupplier.class)
 public abstract class SplashTextResourceSupplierMixin {
-    @Unique
-    private boolean override = true;
-    @Unique
-    private static final Random random = new Random();
+	@Unique
+	private boolean override = true;
+	@Unique
+	private static final Random random = new Random();
 	@Unique
 	private final List<String> meteorSplashes = List.of(
 			"\u00a7e\u00a7lShine\u2738\u00a7e bright like \u00a7d\u00a7lD3k3s!",
 			"\u00a7e\u00a7lShine\u2738 \u00a7fis the most powerful clan!",
-			"\u00a7dНя-ня-ня! Я Дашулька \u00a7d\u00a7lD3k3s!", "\u00a7d\u00a7lD❥k❥s!");
+			"\u00a7dНя-ня-ня! Я Дашулька \u00a7d\u00a7lD3k3s!",
+			"\u00a7d\u00a7lD❥k❥s!", "\u00a7dБабья Дарьич!",
+			"\u00a7fHello\u00a7d dzrkness\u00a7f my old friend!",
+			"\u00a7d\u00a7lДяркнес!",
+			"\u00a7f\u00a7lSharky~ method!");
 
-    @Inject(method = "get", at = @At("HEAD"), cancellable = true)
-    private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
-        if (Config.get() == null || !Config.get().titleScreenSplashes.get()) return;
+	@Inject(method = "get", at = @At("HEAD"), cancellable = true)
+	private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
+		if (Config.get() == null || !Config.get().titleScreenSplashes.get())
+			return;
 
-        if (override) cir.setReturnValue(new SplashTextRenderer(meteorSplashes.get(random.nextInt(meteorSplashes.size()))));
-        override = !override;
-    }
+		if (override)
+			cir.setReturnValue(new SplashTextRenderer(meteorSplashes.get(random.nextInt(meteorSplashes.size()))));
+		override = !override;
+	}
 }
