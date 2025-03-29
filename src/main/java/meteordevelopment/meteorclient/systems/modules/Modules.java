@@ -67,24 +67,7 @@ import meteordevelopment.meteorclient.systems.modules.player.NoInteract;
 import meteordevelopment.meteorclient.systems.modules.player.NoRotate;
 import meteordevelopment.meteorclient.systems.modules.player.Portals;
 import meteordevelopment.meteorclient.systems.modules.player.Reach;
-import meteordevelopment.meteorclient.systems.modules.render.BetterTab;
-import meteordevelopment.meteorclient.systems.modules.render.BlockPartyESP;
-import meteordevelopment.meteorclient.systems.modules.render.BlockSelection;
-import meteordevelopment.meteorclient.systems.modules.render.Blur;
-import meteordevelopment.meteorclient.systems.modules.render.BossStack;
-import meteordevelopment.meteorclient.systems.modules.render.BreakIndicators;
-import meteordevelopment.meteorclient.systems.modules.render.CameraTweaks;
-import meteordevelopment.meteorclient.systems.modules.render.ESP;
-import meteordevelopment.meteorclient.systems.modules.render.FreeLook;
-import meteordevelopment.meteorclient.systems.modules.render.Freecam;
-import meteordevelopment.meteorclient.systems.modules.render.Fullbright;
-import meteordevelopment.meteorclient.systems.modules.render.HandView;
-import meteordevelopment.meteorclient.systems.modules.render.Nametags;
-import meteordevelopment.meteorclient.systems.modules.render.NoRender;
-import meteordevelopment.meteorclient.systems.modules.render.StorageESP;
-import meteordevelopment.meteorclient.systems.modules.render.Trajectories;
-import meteordevelopment.meteorclient.systems.modules.render.Xray;
-import meteordevelopment.meteorclient.systems.modules.render.Zoom;
+import meteordevelopment.meteorclient.systems.modules.render.*;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
 import meteordevelopment.meteorclient.systems.modules.render.marker.Marker;
 import meteordevelopment.meteorclient.systems.modules.world.AirPlace;
@@ -483,6 +466,7 @@ public class Modules extends System<Modules> {
     }
 
     private void initRender() {
+    	add(new PropHunt());
     	add(new BlockPartyESP());
         add(new BetterTab());
         add(new BlockESP());
