@@ -3,7 +3,7 @@
  * Copyright (c) Anthony Afonin
  */
 
-package meteordevelopment.meteorclient.systems.modules.render;
+package meteordevelopment.meteorclient.systems.modules.minigames;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -68,7 +68,7 @@ public class BlockPartyESP extends Module {
 	private Set<Block> lastHotbarBlocks = new HashSet<>();
 
 	public BlockPartyESP() {
-		super(Categories.Render, NAME, DESCRIPTION);
+		super(Categories.MINIGAMES, NAME, DESCRIPTION);
 	}
 
 	@EventHandler
