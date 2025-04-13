@@ -43,7 +43,7 @@ import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.systems.modules.combat.AimAssist;
 import meteordevelopment.meteorclient.systems.modules.combat.BowAimbot;
 import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
-import meteordevelopment.meteorclient.systems.modules.minigames.BlockPartyESP;
+import meteordevelopment.meteorclient.systems.modules.minigames.BlockPartyAssistant;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
 import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
 import meteordevelopment.meteorclient.systems.modules.misc.NameProtect;
@@ -123,6 +123,7 @@ public class Modules extends System<Modules> {
         initRender();
         initWorld();
         initMisc();
+        initMiniGames();
     }
 
     @Override
@@ -468,7 +469,6 @@ public class Modules extends System<Modules> {
 
     private void initRender() {
     	add(new PropHunt());
-    	add(new BlockPartyESP());
         add(new BetterTab());
         add(new BlockESP());
         add(new BlockSelection());
@@ -509,6 +509,10 @@ public class Modules extends System<Modules> {
         add(new ServerSpoof());
         add(new SoundBlocker());
         add(new Spam());
+    }
+    
+    private void initMiniGames() {
+    	add(new BlockPartyAssistant());
     }
 
     public static class ModuleRegistry extends SimpleRegistry<Module> {
