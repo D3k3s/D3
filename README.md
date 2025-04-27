@@ -2,13 +2,13 @@
 Свободный и бесплатный чит-клиент для комфортной игры на многих режимах Teslacraft
 
 ## Установка
-1. Убедитесь, что у вас установлен Fabric Loader 1.24 
+1. Убедитесь, что у вас установлен Fabric Loader 1.21.4 
 2. Найдите на странице [релизов](https://github.com/D3k3s/D3/releases) самую свежую сборку
 3. Загрузите `.jar` файл
 4. Поместите загруженный файл в директорию `mods`
 
 ### Teslacraft
-1. Загрузите последний релиз [ViaFabicPlus](https://github.com/ViaVersion/ViaFabricPlus/releases) с поддержкой Fabric 1.24
+1. Загрузите последний релиз [ViaFabicPlus](https://github.com/ViaVersion/ViaFabricPlus/releases) с поддержкой Fabric 1.21.4
 2. Поместите загруженный файл в директорию `mods`
 3. В игре откройте меню `Сетевая игра` &rarr; `ViaFabricPlus`
 4. Выберите `Auto Detect (1.7+ servers)` либо `1.12.2`
