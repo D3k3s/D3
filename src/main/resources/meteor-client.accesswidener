@@ -35,3 +35,7 @@ accessible field net/minecraft/client/render/item/ItemRenderState layers [Lnet/m
 accessible field net/minecraft/client/render/item/ItemRenderState layerCount I
 accessible field net/minecraft/client/render/item/ItemRenderState$LayerRenderState model Lnet/minecraft/client/render/model/BakedModel;
 accessible method net/minecraft/client/render/item/ItemRenderState$LayerRenderState getTransformation ()Lnet/minecraft/client/render/model/json/Transformation;
+
+# GameRenderer.java
+
+accessible method net/minecraft/client/render/GameRenderer findCrosshairTarget (Lnet/minecraft/entity/Entity;DDF)Lnet/minecraft/util/hit/HitResult;
