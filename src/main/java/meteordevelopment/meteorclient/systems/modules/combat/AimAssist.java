@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.*;
+import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.*;
 import meteordevelopment.meteorclient.utils.render.color.*;
 import meteordevelopment.orbit.EventHandler;
@@ -25,6 +26,10 @@ public class AimAssist extends Module {
 	private static final String NAME = "Aim-assist";
 
 	private static final String DESCRIPTION = "Helps you aim at entities";
+
+	private enum RotationMode {
+		Packet, Camera
+	}
 
 	private SettingGroup targetSettings = settings.createGroup("Target");
 
@@ -48,15 +53,24 @@ public class AimAssist extends Module {
 	private final Setting<Integer> lookupAngle = targetSettings.add(new IntSetting.Builder().name("Lookup angle")
 			.description("Target lookup FOV").range(0, 180).defaultValue(50).sliderRange(0, 180).build());
 
+	private final Setting<RotationMode> rotationMode = rotationSettings.add(
+			new EnumSetting.Builder<RotationMode>().name("Rotation mode").defaultValue(RotationMode.Packet).build());
+
+	private final Setting<Double> rotationTime = rotationSettings.add(new DoubleSetting.Builder().name("Rotation time")
+			.description("How long you will rotatate to target").range(0.05, 5).sliderRange(0.05, 1.5).build());
+
+	private final Setting<Keybind> rotationKey = rotationSettings
+			.add(new KeybindSetting.Builder().name("Rotation key").defaultValue(Keybind.fromButton(0)).build());
+
 	private final Setting<Boolean> highlightTarget = renderSettings
 			.add(new BoolSetting.Builder().name("Highlight target").defaultValue(true).build());
 
 	private final Setting<Integer> cylinderSegments = renderSettings
-			.add(new IntSetting.Builder().name("Target cylinder segments").range(0, 80).defaultValue(50)
-					.sliderRange(4, 100).visible(highlightTarget::get).build());
+			.add(new IntSetting.Builder().name("Cylinder segments").range(0, 80).defaultValue(50).sliderRange(4, 100)
+					.visible(highlightTarget::get).build());
 
-	private final Setting<SettingColor> cylinderColor = renderSettings
-			.add(new ColorSetting.Builder().name("Cylinder color").defaultValue(Color.CYAN).build());
+	private final Setting<SettingColor> cylinderColor = renderSettings.add(new ColorSetting.Builder()
+			.name("Cylinder color").defaultValue(Color.CYAN).visible(highlightTarget::get).build());
 
 	public AimAssist() {
 		super(Categories.Combat, NAME, DESCRIPTION);
@@ -67,6 +81,7 @@ public class AimAssist extends Module {
 	@EventHandler
 	private void tick(TickEvent.Pre event) {
 		target = findTarget();
+
 	}
 
 	@EventHandler
