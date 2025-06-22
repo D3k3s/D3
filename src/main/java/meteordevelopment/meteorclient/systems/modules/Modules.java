@@ -44,12 +44,7 @@ import meteordevelopment.meteorclient.systems.modules.combat.AimAssist;
 import meteordevelopment.meteorclient.systems.modules.combat.BowAimbot;
 import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
 import meteordevelopment.meteorclient.systems.modules.minigames.BlockPartyAssistant;
-import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
-import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
-import meteordevelopment.meteorclient.systems.modules.misc.NameProtect;
-import meteordevelopment.meteorclient.systems.modules.misc.ServerSpoof;
-import meteordevelopment.meteorclient.systems.modules.misc.SoundBlocker;
-import meteordevelopment.meteorclient.systems.modules.misc.Spam;
+import meteordevelopment.meteorclient.systems.modules.misc.*;
 import meteordevelopment.meteorclient.systems.modules.movement.AntiAFK;
 import meteordevelopment.meteorclient.systems.modules.movement.AutoWalk;
 import meteordevelopment.meteorclient.systems.modules.movement.ClickTP;
@@ -59,15 +54,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.SafeWalk;
 import meteordevelopment.meteorclient.systems.modules.movement.Scaffold;
 import meteordevelopment.meteorclient.systems.modules.movement.Sneak;
 import meteordevelopment.meteorclient.systems.modules.movement.Sprint;
-import meteordevelopment.meteorclient.systems.modules.player.AutoClicker;
-import meteordevelopment.meteorclient.systems.modules.player.AutoFish;
-import meteordevelopment.meteorclient.systems.modules.player.FakePlayer;
-import meteordevelopment.meteorclient.systems.modules.player.GhostHand;
-import meteordevelopment.meteorclient.systems.modules.player.MiddleClickExtra;
-import meteordevelopment.meteorclient.systems.modules.player.NoInteract;
-import meteordevelopment.meteorclient.systems.modules.player.NoRotate;
-import meteordevelopment.meteorclient.systems.modules.player.Portals;
-import meteordevelopment.meteorclient.systems.modules.player.Reach;
+import meteordevelopment.meteorclient.systems.modules.player.*;
 import meteordevelopment.meteorclient.systems.modules.render.*;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
 import meteordevelopment.meteorclient.systems.modules.render.marker.Marker;
@@ -453,6 +440,7 @@ public class Modules extends System<Modules> {
         add(new Portals());
         add(new NoRotate());
         add(new Reach());
+        add(new AutoJumpReset());
     }
 
     private void initMovement() {
@@ -503,6 +491,7 @@ public class Modules extends System<Modules> {
     }
 
     private void initMisc() {
+    	add(new AutoGG());
         add(new BetterChat());
         add(new InventoryTweaks());
         add(new NameProtect());

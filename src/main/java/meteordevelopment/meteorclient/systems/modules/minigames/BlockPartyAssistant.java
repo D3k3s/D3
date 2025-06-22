@@ -20,13 +20,14 @@ import meteordevelopment.meteorclient.utils.player.*;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.input.*;
+import net.minecraft.entity.MovementType;
+import net.minecraft.entity.player.*;
+import net.minecraft.item.*;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.*;
-import net.minecraft.world.timer.Timer;
+import net.minecraft.util.PlayerInput;
+import net.minecraft.util.math.BlockPos;
 
 public class BlockPartyAssistant extends Module {
 
@@ -43,6 +44,8 @@ public class BlockPartyAssistant extends Module {
 	private final SettingGroup renderSettings = settings.createGroup("Render");
 
 	private final SettingGroup rotationSettings = settings.createGroup("Rotation");
+
+	private final SettingGroup movementSettings = settings.createGroup("Movement");
 
 	private final Setting<Integer> plotSize = plotSettings.add(new IntSetting.Builder().name("Plot size")
 			.description("Playing field size (blocks)").range(2, 100).defaultValue(70).sliderRange(2, 100).build());
@@ -87,14 +90,29 @@ public class BlockPartyAssistant extends Module {
 			.name("Mode").description("Determines how the player will turn towards the target block")
 			.defaultValue(RotationMode.NONE).build());
 
+	private final Setting<Boolean> autoMove = movementSettings.add(new BoolSetting.Builder().name("Automatic movement")
+			.description("Automatic runs to target block").defaultValue(false).build());
+
 	private List<BlockPos> correctBlocksPositions = new ArrayList<>();
 
 	private Optional<BlockPos> targetPos = Optional.empty();
 
 	private Set<Block> lastHotbarBlocks = new HashSet<>();
 
+	private CustomPlayerInput dummyInput = new CustomPlayerInput();
+
 	public BlockPartyAssistant() {
 		super(Categories.MINIGAMES, NAME, DESCRIPTION);
+	}
+
+	private boolean isPlayerInSafePos() {
+		for (BlockPos pos : correctBlocksPositions) {
+			if (pos.getX() == mc.player.getBlockX() && pos.getZ() == mc.player.getBlockZ()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@EventHandler
@@ -113,8 +131,30 @@ public class BlockPartyAssistant extends Module {
 		}
 	}
 
+	private void updateAutomaticMovement(BlockPos target) {
+		mc.player.input = autoMove.get() ? dummyInput : new KeyboardInput(mc.options);
+		
+		if (!isPlayerInSafePos()) {
+			dummyInput.jump(mc.player.getBlockPos().getSquaredDistance(target) > 3);
+			dummyInput.sprint(true);
+			dummyInput.forward(true);
+		} else {
+			dummyInput.sprint(false);
+			dummyInput.forward(false);
+		}
+	}
+
 	@EventHandler
 	private void tick(TickEvent.Post event) {
+		targetPos.ifPresent(pos -> {
+			if (rotationMode.get() == RotationMode.STRAIGHT) {
+				mc.player.setYaw((float) Rotations.getYaw(pos));
+			}
+			
+			updateAutomaticMovement(pos);
+		});
+		
+
 		Set<Block> hotbarBlocks = getHotbarBlocks();
 
 		if (hotbarBlocks.equals(lastHotbarBlocks)) {
@@ -124,11 +164,7 @@ public class BlockPartyAssistant extends Module {
 		updatePositions(hotbarBlocks);
 		lastHotbarBlocks = hotbarBlocks;
 
-		targetPos.ifPresent(pos -> {
-			if (rotationMode.get() == RotationMode.STRAIGHT) {
-				mc.player.setYaw((float) Rotations.getYaw(pos));
-			}
-		});
+		
 	}
 
 	@EventHandler
@@ -152,6 +188,11 @@ public class BlockPartyAssistant extends Module {
 	@Override
 	public void onActivate() {
 		lastHotbarBlocks.clear();
+	}
+	
+	@Override
+	public void onDeactivate() {
+		mc.player.input = new KeyboardInput(mc.options);
 	}
 
 	private void updatePositions(Set<Block> blocks) {
@@ -179,6 +220,7 @@ public class BlockPartyAssistant extends Module {
 		}
 
 		targetPos = Optional.ofNullable(closest == BlockPos.ORIGIN ? null : closest);
+
 	}
 
 	private Set<Block> getHotbarBlocks() {

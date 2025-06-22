@@ -11,6 +11,7 @@ import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.Renderer3D;
 import meteordevelopment.meteorclient.settings.*;
+import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.*;
@@ -19,7 +20,8 @@ import meteordevelopment.meteorclient.utils.player.*;
 import meteordevelopment.meteorclient.utils.render.color.*;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.*;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.*;
 
 public class AimAssist extends Module {
 
@@ -59,6 +61,9 @@ public class AimAssist extends Module {
 	private final Setting<Double> rotationTime = rotationSettings.add(new DoubleSetting.Builder().name("Rotation time")
 			.description("How long you will rotatate to target").range(0.05, 5).sliderRange(0.05, 1.5).build());
 
+	private final Setting<Double> yawSpeed = rotationSettings.add(new DoubleSetting.Builder().name("Yaw speed")
+			.description("yaw speed").range(0, 2480).sliderRange(0.0, 2480).build());
+
 	private final Setting<Keybind> rotationKey = rotationSettings
 			.add(new KeybindSetting.Builder().name("Rotation key").defaultValue(Keybind.fromButton(0)).build());
 
@@ -78,23 +83,60 @@ public class AimAssist extends Module {
 
 	private Optional<Entity> target = Optional.empty();
 
+	private double aimTimer;
+
 	@EventHandler
 	private void tick(TickEvent.Pre event) {
 		target = findTarget();
 
+		target.ifPresentOrElse((entity) -> {
+			if (rotationKey.get().isPressed()) {
+				aimTimer = rotationTime.get();
+			}
+		}, () -> {
+			aimTimer = 0;
+		});
+		
+	}
+	
+	@Override
+	public void onDeactivate() {
+		aimTimer = 0;
+		target = Optional.empty();
 	}
 
 	@EventHandler
 	private void render(Render3DEvent event) {
-		if (target.isPresent() && highlightTarget.get()) {
-			renderTarget(event.renderer, target.get(), event.tickDelta);
+		if (target.isEmpty()) {
+			return;
 		}
+
+		Entity targetEntity = target.get();
+
+		if (highlightTarget.get()) {
+			renderTarget(event.renderer, targetEntity, event.tickDelta);
+		}
+
+		if (aimTimer > 0 && mc.currentScreen == null) {
+			double delta = event.frameTime;
+			double playerYaw = mc.player.getYaw();
+			double targetYaw = Rotations.getYaw(targetEntity);
+
+			double deltaAngle = ((targetYaw - playerYaw + 540) % 360) - 180;
+
+			// Interpolate with a smoothing factor
+			double maxRotation = yawSpeed.get() * delta; // Max degrees per second scaled by delta time
+			double newYaw = playerYaw + Math.max(-maxRotation, Math.min(maxRotation, deltaAngle));
+
+			mc.player.setYaw(MathHelper.lerp(event.tickDelta, mc.player.prevYaw, (float) newYaw));
+
+			aimTimer -= delta;
+		}
+
 	}
 
 	private void renderTarget(Renderer3D renderer, Entity entity, float tickDelta) {
 		final double TWICE_PI = Math.PI * 2;
-
-		Color color = cylinderColor.get();
 		double entityX = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
 		double entityY = MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY());
 		double entityZ = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
@@ -102,6 +144,14 @@ public class AimAssist extends Module {
 		double height = entity.getHeight();
 		double offset = height * 0.1;
 		double segments = cylinderSegments.get();
+
+		Color color = cylinderColor.get();
+
+		// damage animation
+	//	if (entity instanceof LivingEntity living && living.maxHurtTime > 0) {
+	//		float animationProgress = (float) living.hurtTime / living.maxHurtTime;
+	//		color.a = (int) (1 - (color.a * animationProgress));
+	//	}
 
 		double lastX = entityX + radius;
 		double lastZ = entityZ;
@@ -136,6 +186,10 @@ public class AimAssist extends Module {
 		}
 
 		if (!(entity instanceof LivingEntity)) {
+			return false;
+		}
+		
+		if(entity instanceof PlayerEntity player && Friends.get().isFriend(player)) {
 			return false;
 		}
 
